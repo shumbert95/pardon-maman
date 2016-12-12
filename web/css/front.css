@@ -1,0 +1,24 @@
+#participate {
+    float: right;
+    margin-top: 7px;
+    margin-right: 7px;
+}
+#navbar, .container-fluid {
+    padding: 0 !important;
+}
+.btn-secondary {
+    background-color: white;
+}
+.btn-border {
+    border: 1px solid #3D3D3D !important;
+}
+button {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+.navbar {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}

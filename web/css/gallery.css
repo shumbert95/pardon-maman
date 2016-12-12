@@ -1,0 +1,49 @@
+.container {
+    padding-top: 20px;
+}
+ul {
+    list-style-type: none;
+}
+
+img {
+    width: 100%;
+}
+
+.picture-block {
+    margin-bottom: 50px;
+}
+
+body {
+    text-align: center;
+    color: #3D3D3D !important;
+}
+.filters {
+    text-align: right;
+    margin-bottom: 50px;
+}
+.dropdown-menu {
+    position: absolute !important;
+    right: 0;
+    left: auto !important;
+    float: right !important;
+}
+.open>.dropdown-menu {
+    display: inline-block !important;
+}
+.picture-info {
+    border: 1px solid #3D3D3D;
+    text-align: left;
+    padding: 5px 10px 5px 10px;
+    min-height: 30px;
+}
+.dropdown {
+    margin-right: 10px;
+}
+h1, .filters {
+    display: inline-block;
+    margin-top: auto !important;
+    margin-bottom: 50px !important;
+}
+.row {
+    text-align: center;
+}

@@ -1,0 +1,43 @@
+#listephotos
+{
+    margin-top: 10px;
+}
+
+.crop
+{
+    width: 512px;
+    height: 288px;
+    overflow: hidden;
+    border: 3px solid #333333;
+    background-position: center center;
+    background-size: cover;
+}
+
+.image-transfert
+{
+    cursor: pointer;
+}
+#envoi-participation
+{
+    margin-top: 10px;
+}
+
+.ecartement h2,.ecartement button
+{
+    margin-left: 30px;
+}
+
+body
+{
+    overflow: hidden;
+}
+
+.modal-body img
+{
+    width: 100%;
+}
+
+.modal-footer
+{
+    text-align: center;
+}

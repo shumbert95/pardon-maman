@@ -92,6 +92,13 @@ class Contest
     private $date_update;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="active", type="integer")
+     */
+    private $active;
+
+    /**
      * Get id
      *
      * @return int

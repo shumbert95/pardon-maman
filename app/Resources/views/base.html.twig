@@ -16,10 +16,10 @@
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul class="nav navbar-nav">
                         <li {% if controller  == 'home' %}class="active" {% endif %}>
-                            <a href="/">Accueil</a>
+                            <a href="{{ path('homepage') }}">Accueil</a>
                         </li>
                         <li {% if controller  == 'gallery' %}class="active" {% endif %}>
-                            <a href="/gallery">Galerie</a>
+                            <a href="{{ path('gallery') }}">Galerie</a>
                         </li>
                         <li {% if controller  == 'rules' %}class="active" {% endif %}>
                             <a href="#">Règles</a>

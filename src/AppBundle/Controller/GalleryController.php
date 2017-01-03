@@ -14,8 +14,8 @@ class GalleryController extends Controller
     public function indexAction(Request $request)
     {
         $facebook = new Facebook(array(
-            'appId'  => $this->container->getParameter('appId');,
-            'secret' => $this->container->getParameter('appSecret');,
+            'appId'  => $this->container->getParameter('appId'),
+            'secret' => $this->container->getParameter('appSecret'),
         ));
 
         return $this->render('default/gallery.html.twig', [

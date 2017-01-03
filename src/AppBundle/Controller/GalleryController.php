@@ -14,14 +14,10 @@ class GalleryController extends Controller
     public function indexAction(Request $request)
     {
         $facebook = new Facebook(array(
-            'appId'  => '1504707966210156',
-            'secret' => '68f994bc31e69588727c593005f770c8',
+            'appId'  => $this->container->getParameter('appId');,
+            'secret' => $this->container->getParameter('appSecret');,
         ));
 
-        var_dump($facebook);
-        die();
-
-        // replace this example code with whatever you need
         return $this->render('default/gallery.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'gallery',

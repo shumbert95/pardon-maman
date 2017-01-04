@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    var listOfScope = ['public_profile','email'];
+    var listOfScope = ['public_profile','email', 'user_photos'];
     var maxRerequestScope = 2;
     var numberRerequestScope = 0;
 

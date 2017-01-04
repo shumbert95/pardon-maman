@@ -116,7 +116,7 @@ $(document).ready(function(){
         console.log('Welcome!  Fetching your information.... ');
         console.log("Access token : "+response.authResponse.accessToken);
         console.log("User id : "+response.authResponse.userID);
-
     }
+
 
 });

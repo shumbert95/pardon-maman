@@ -23,6 +23,7 @@ $(document).ready(function(){
             appId      : '1504707966210156',
             cookie     : true,  // enable cookies to allow the server to access
                                 // the session
+            status     : true,
             xfbml      : true,  // parse social plugins on this page
             version    : 'v2.5' // use graph api version 2.5
         });
@@ -84,14 +85,15 @@ $(document).ready(function(){
             })
 
             if(error){
-                $("#subscribe").show();
-                $("#disconnect").hide();
                 askScopeAgain();
             }else{
-                $("#subscribe").hide();
-                $("#disconnect").show();
-                console.log(arguments);
-                callback(values);
+                $.ajax({
+                    url: '/app_dev.php/connect',
+                    data: {userId: values.authResponse.userID, accessToken: values.authResponse.accessToken},
+                    type: 'POST'
+                }).done(function (response) {
+                    callback(values);
+                });
             }
 
             return !error;

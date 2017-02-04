@@ -50,11 +50,11 @@ class Prize
     private $dateUpdate;
 
     /**
-     * @var int
+     * @var boolean
      *
-     * @ORM\Column(name="active", type="integer")
+     * @ORM\Column(name="status", type="boolean", options={"default" : true})
      */
-    private $active;
+    private $status;
 
 
     /**
@@ -164,27 +164,32 @@ class Prize
     }
 
     /**
-     * Set active
+     * Set status
      *
-     * @param integer $active
+     * @param boolean $status
      *
      * @return Prize
      */
-    public function setActive($active)
+    public function setStatus($status)
     {
-        $this->active = $active;
+        $this->status = $status;
 
         return $this;
     }
 
     /**
-     * Get active
+     * Get status
      *
-     * @return int
+     * @return boolean
      */
-    public function getActive()
+    public function getStatus()
     {
-        return $this->active;
+        return $this->status;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }
 

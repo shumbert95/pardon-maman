@@ -22,47 +22,26 @@ class ContestParticipant
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_contest", type="integer")
+     * @ORM\ManyToOne(targetEntity="Contest", inversedBy="contestParticipants", cascade="persist")
      */
-    private $idContest;
+    private $contest;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_participant", type="integer")
+     * @ORM\ManyToOne(targetEntity="Participant", inversedBy="contestParticipants", cascade="persist")
      */
-    private $idParticipant;
+    private $participant;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_photo", type="integer")
+     * @ORM\ManyToOne(targetEntity="Photo", inversedBy="contestParticipants", cascade="persist")
      */
-    private $idPhoto;
+    private $photo;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_add", type="datetime")
+     * @ORM\Column(name="date_inscription", type="datetime")
      */
-    private $dateAdd;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_update", type="datetime", nullable=true)
-     */
-    private $dateUpdate;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="active", type="integer")
-     */
-    private $active;
-
+    private $dateInscription;
 
     /**
      * Get id
@@ -75,147 +54,99 @@ class ContestParticipant
     }
 
     /**
-     * Set idContest
+     * Set contest
      *
-     * @param integer $idContest
+     * @param Contest $contest
      *
      * @return ContestParticipant
      */
-    public function setIdContest($idContest)
+    public function setContest($contest)
     {
-        $this->idContest = $idContest;
+        $this->contest = $contest;
 
         return $this;
     }
 
     /**
-     * Get idContest
+     * Get contest
      *
-     * @return int
+     * @return Contest
      */
-    public function getIdContest()
+    public function getContest()
     {
-        return $this->idContest;
+        return $this->contest;
     }
 
     /**
-     * Set idParticipant
+     * Set participant
      *
-     * @param integer $idParticipant
+     * @param Participant $participant
      *
      * @return ContestParticipant
      */
-    public function setIdParticipant($idParticipant)
+    public function setParticipant($participant)
     {
-        $this->idParticipant = $idParticipant;
+        $this->participant = $participant;
 
         return $this;
     }
 
     /**
-     * Get idParticipant
+     * Get participant
      *
-     * @return int
+     * @return Participant
      */
-    public function getIdParticipant()
+    public function getParticipant()
     {
-        return $this->idParticipant;
+        return $this->participant;
     }
 
     /**
-     * Set idPhoto
+     * Set photo
      *
-     * @param integer $idPhoto
+     * @param Photo $photo
      *
      * @return ContestParticipant
      */
-    public function setIdPhoto($idPhoto)
+    public function setPhoto($photo)
     {
-        $this->idPhoto = $idPhoto;
+        $this->photo = $photo;
 
         return $this;
     }
 
     /**
-     * Get idPhoto
+     * Get photo
      *
-     * @return int
+     * @return Photo
      */
-    public function getIdPhoto()
+    public function getPhoto()
     {
-        return $this->idPhoto;
+        return $this->photo;
     }
 
     /**
-     * Set dateAdd
+     * Set dateInscription
      *
-     * @param \DateTime $dateAdd
+     * @param \DateTime $dateInscription
      *
      * @return ContestParticipant
      */
-    public function setDateAdd($dateAdd)
+    public function setDateInscritpion($dateInscription)
     {
-        $this->dateAdd = $dateAdd;
+        $this->dateInscription = $dateInscription;
 
         return $this;
     }
 
     /**
-     * Get dateAdd
+     * Get dateInscription
      *
      * @return \DateTime
      */
-    public function getDateAdd()
+    public function getDateInscription()
     {
-        return $this->dateAdd;
-    }
-
-    /**
-     * Set dateUpdate
-     *
-     * @param \DateTime $dateUpdate
-     *
-     * @return ContestParticipant
-     */
-    public function setDateUpdate($dateUpdate)
-    {
-        $this->dateUpdate = $dateUpdate;
-
-        return $this;
-    }
-
-    /**
-     * Get dateUpdate
-     *
-     * @return \DateTime
-     */
-    public function getDateUpdate()
-    {
-        return $this->dateUpdate;
-    }
-
-    /**
-     * Set active
-     *
-     * @param integer $active
-     *
-     * @return ContestParticipant
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * Get active
-     *
-     * @return int
-     */
-    public function getActive()
-    {
-        return $this->active;
+        return $this->dateInscription;
     }
 }
 

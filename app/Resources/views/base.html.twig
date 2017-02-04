@@ -23,13 +23,13 @@
                             <a href="{{ path('gallery') }}">Galerie</a>
                         </li>
                         <li {% if controller  == 'rules' %}class="active" {% endif %}>
-                            <a href="#">Règles</a>
+                            <a href="{{ path('rules') }}">Règles</a>
                         </li>
                         <li style="{% if admin == false %}display:none{% endif %}">
                             <a href="#">Connexion</a>
                         </li>
                     </ul>
-                    <a href="/participate"><button type="button" id="participate" class="btn btn-secondary">Je participe</button></a>
+                    <a href="{{ path('participate') }}"><button type="button" id="participate" class="btn btn-secondary">Je participe</button></a>
                 </div>
             </div>
         </nav>

@@ -13,6 +13,8 @@ use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 
 class ContestAdmin extends AbstractAdmin
 {
+
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->add('name', 'text', ['label' => 'Nom', 'required' => true]);
@@ -42,13 +44,14 @@ class ContestAdmin extends AbstractAdmin
             ->add('status', null, ['label' => 'En ligne', 'editable' => true]);
     }
 
-    public function preUpdate($object)
-    {
-        $object->setDateUpdate(new \DateTime(date('Y-m-d H:i:s')));
-    }
-
-    public function prePersist($object)
-    {
-        $object->setDateAdd( new \DateTime(date('Y-m-d H:i:s')));
-    }
+//    public function preUpdate($object)
+//    {
+//        $object->setDateUpdate(new \DateTime(date('Y-m-d H:i:s')));
+//    }
+//
+//    public function prePersist($object)
+//    {
+//        $object->setDateAdd( new \DateTime(date('Y-m-d H:i:s')));
+//        $em = $this->getModelManager()->getEntityManager($this->getClass());
+//    }
 }

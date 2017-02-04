@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="contest")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContestRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Contest
 {
@@ -420,5 +421,23 @@ class Contest
     public function __toString() {
         return $this->name;
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->date_add = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->date_update = new \DateTime();
+    }
+
+
 }
 

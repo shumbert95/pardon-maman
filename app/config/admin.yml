@@ -1,0 +1,43 @@
+sonata_admin:
+    title: Back Office
+    dashboard:
+        groups:
+            contest:
+              label: Concours
+              label_catalogue: admin
+              item: 
+                  - app.admin.contest
+                  - app.admin.prize
+                  - app.admin.rule
+                  - app.admin.template
+            users:
+                label: Utilisateurs
+                label_catalogue: admin
+                item:
+                  - app.admin.user
+services:
+    app.admin.contest:
+        class: AppBundle\Admin\ContestAdmin
+        arguments: [~, AppBundle\Entity\Contest, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Concours }
+    app.admin.prize:
+        class: AppBundle\Admin\PrizeAdmin
+        arguments: [~, AppBundle\Entity\Prize, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Prix }
+    app.admin.rule:
+            class: AppBundle\Admin\RuleAdmin
+            arguments: [~, AppBundle\Entity\Rule, ~]
+            tags:
+                - { name: sonata.admin, manager_type: orm, label: Règles }
+    app.admin.template:
+                class: AppBundle\Admin\TemplateAdmin
+                arguments: [~, AppBundle\Entity\Template, ~]
+                tags:
+                    - { name: sonata.admin, manager_type: orm, label: Templates }
+    app.admin.user:
+                class: AppBundle\Admin\UserAdmin
+                arguments: [~, AppBundle\Entity\User, ~]
+                tags:
+                    - { name: sonata.admin, manager_type: orm, label: Utilisateurs }

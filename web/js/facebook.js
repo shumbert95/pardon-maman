@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    var listOfScope = ['public_profile','email', 'user_photos'];
+    var listOfScope = ['public_profile','email', 'user_photos', 'user_birthday', 'user_location'];
     var maxRerequestScope = 2;
     var numberRerequestScope = 0;
 
@@ -67,7 +67,6 @@ $(document).ready(function(){
 
         var listOfScopeGrantedNow = [];
         var error = false;
-
         FB.api('/me/permissions', function(response) {
 
             response.data.forEach(function(permission){
@@ -93,6 +92,9 @@ $(document).ready(function(){
                     type: 'POST'
                 }).done(function (response) {
                     callback(values);
+                    if (response == 'connection') {
+                        window.location = '/';
+                    }
                 });
             }
 

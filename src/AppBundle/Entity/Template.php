@@ -24,6 +24,13 @@ class Template
     /**
      * @var string
      *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="color", type="string", length=255)
      */
     private $color;
@@ -43,11 +50,11 @@ class Template
     private $dateUpdate;
 
     /**
-     * @var int
+     * @var boolean
      *
-     * @ORM\Column(name="active", type="integer")
+     * @ORM\Column(name="status", type="boolean")
      */
-    private $active;
+    private $status;
 
 
     /**
@@ -58,6 +65,30 @@ class Template
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Template
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -130,6 +161,35 @@ class Template
     public function getDateUpdate()
     {
         return $this->dateUpdate;
+    }
+
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     *
+     * @return Template
+     */
+    public function setActive($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }
 

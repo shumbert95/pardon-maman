@@ -25,7 +25,7 @@
                         <li {% if controller  == 'rules' %}class="active" {% endif %}>
                             <a href="#">Règles</a>
                         </li>
-                        <li style="display:none">
+                        <li style="{% if admin == false %}display:none{% endif %}">
                             <a href="#">Connexion</a>
                         </li>
                     </ul>

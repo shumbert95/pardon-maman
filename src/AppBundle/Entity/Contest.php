@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,30 +53,30 @@ class Contest
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_winner", type="integer")
+     * @ORM\Column(name="id_winner", type="integer", nullable=true)
      */
     private $id_winner;
 
     /**
-     * @var integer
      *
-     * @ORM\Column(name="id_template", type="integer")
+     * @ORM\ManyToOne(targetEntity="Template", inversedBy="reservations", cascade={"merge", "persist"})
      */
-    private $id_template;
+    private $template;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_rule", type="integer")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Rule", cascade={"persist"})
+     * @ORM\JoinTable(name="contest_rule",
+     *      joinColumns={@ORM\JoinColumn(name="contest_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="rule_id", referencedColumnName="id")}
+     * )
      */
-    private $id_rule;
+    private $rules;
 
     /**
-     * @var integer
      *
-     * @ORM\Column(name="id_prize", type="integer")
+     * @ORM\ManyToOne(targetEntity="Prize", inversedBy="reservations", cascade={"merge", "persist"})
      */
-    private $id_prize;
+    private $prize;
 
     /**
      * @var \DateTime
@@ -92,12 +93,24 @@ class Contest
     private $date_update;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="active", type="integer")
+     * @ORM\OneToMany(targetEntity="ContestParticipant", mappedBy="contest", cascade={"all"}, fetch="EAGER")
      */
-    private $active;
+    private $contestParticipants;
 
+
+    /**
+     *
+     * @ORM\Column(name="status", type="boolean")
+     */
+    private $status;
+
+    private $participants;
+
+
+    public function __construct()
+    {
+        $this->contestParticipants = new ArrayCollection();
+    }
     /**
      * Get id
      *
@@ -129,6 +142,282 @@ class Contest
      */
     public function getName()
     {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     *
+     * @return Contest
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set data_add
+     *
+     *
+     * @return Contest
+     */
+    public function setDateAdd($date_add)
+    {
+        $this->date_add = $date_add;
+        return $this;
+    }
+
+    /**
+     * Get date_add
+     *
+     */
+
+    public function getDateAdd()
+    {
+        return $this->date_add;
+    }
+
+    /**
+     * Set data_end
+     *
+     *
+     * @return Contest
+     */
+    public function setDateEnd($date_end)
+    {
+        $this->date_end = $date_end;
+        return $this;
+    }
+
+    /**
+     * Get date_add
+     *
+     */
+
+    public function getDateEnd()
+    {
+        return $this->date_end;
+    }
+
+    /**
+     * Set data_start
+     *
+     *
+     * @return Contest
+     */
+    public function setDateStart($date_start)
+    {
+        $this->date_start = $date_start;
+        return $this;
+    }
+
+    /**
+     * Get date_start
+     *
+     */
+
+    public function getDateStart()
+    {
+        return $this->date_start;
+    }
+
+    /**
+     * Set data_update
+     *
+     *
+     * @return Contest
+     */
+    public function setDateUpdate($date_update)
+    {
+        $this->date_update = $date_update;
+        return $this;
+    }
+
+    /**
+     * Get date_update
+     *
+     */
+
+    public function getDateUpdate()
+    {
+        return $this->date_start;
+    }
+
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Contest
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set prize
+     *
+     * @param Prize $prize
+     *
+     * @return Contest
+     */
+    public function setPrize($prize)
+    {
+        $this->prize = $prize;
+        return $this;
+    }
+
+    /**
+     * Get prize
+     *
+     * @return Prize
+     */
+
+    public function getPrize()
+    {
+        return $this->prize;
+    }
+
+    /**
+     * Set template
+     *
+     * @param Prize $template
+     *
+     * @return Contest
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+        return $this;
+    }
+
+    /**
+     * Get template
+     *
+     * @return Template
+     */
+
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * @param ContestParticipant $contestParticipant
+     */
+    public function addContestParticipant($contestParticipant)
+    {
+        $this->contestParticipants->add($contestParticipant);
+    }
+
+    /**
+     *
+     * @param ContestParticipant $contestParticipant
+     */
+    public function removeContestParticipant($contestParticipant)
+    {
+        $this->contestParticipants->removeElement($contestParticipant);
+    }
+
+    /**
+     *
+     * @param Collection <ContestParticipant> $contestPArticipants
+     * @return \AppBundle\Entity\Contest
+     */
+    public function setContestParticipants($contestParticipants)
+    {
+        $this->contestParticipants = $contestParticipants;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection <ContestParticipant>
+     */
+    public function getContestParticipants()
+    {
+        return $this->contestParticipants;
+    }
+
+    public function getParticipants()
+    {
+        $participants = new ArrayCollection();
+        foreach ($this->contestParticipants as $contestParticipant) {
+            $participants->add($contestParticipant->getParticipant());
+        }
+        return $participants;
+    }
+
+    /**
+     * Set rules
+     *
+     */
+    public function setRules($rules)
+    {
+        $this->rules = $rules;
+        return $this;
+    }
+
+    /**
+     * Get rules
+     *
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
+     * Add rules
+     *
+     * @param \AppBundle\Entity\Rule $rule
+     * @return Contest
+     */
+    public function addPrize(\AppBundle\Entity\Rule $rule)
+    {
+        $this->rules[] = $rule;
+
+        return $this;
+    }
+
+    /**
+     * Remove rules
+     *
+     * @param \AppBundle\Entity\Prize $rule
+     */
+    public function removeRule(\AppBundle\Entity\Rule $rule)
+    {
+        $this->rules->removeElement($rule);
+    }
+
+
+    public function __toString() {
         return $this->name;
     }
 }

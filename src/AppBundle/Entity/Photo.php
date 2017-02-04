@@ -29,6 +29,13 @@ class Photo
     private $link;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_id", type="string", length=255)
+     */
+    private $facebook_id;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_add", type="datetime")
@@ -154,6 +161,29 @@ class Photo
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set facebook_id
+     *
+     * @param string $facebook_id
+     * @return User
+     */
+    public function setFacebookId($facebook_id)
+    {
+        $this->facebookId = $facebook_id;
+
+        return $this;
+    }
+
+    /**
+     * Get facebook_id
+     *
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
     }
 }
 

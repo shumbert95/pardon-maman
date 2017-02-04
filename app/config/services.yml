@@ -8,5 +8,5 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
      facebook_service:
-          class: AppBundle\Services\Facebook
+          class: AppBundle\Services\FacebookService
           arguments: ['%appId%', '%appSecret%']

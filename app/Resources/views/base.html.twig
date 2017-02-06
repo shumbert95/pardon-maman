@@ -10,9 +10,24 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="{{ asset('js/facebook.js') }}"></script>
+        <script src="{{ asset('js/front.js') }}"></script>
     </head>
     <body>
-        <nav class="navbar navbar-inverse">
+    {% if app.session.flashBag.has('success') %}
+        <div class="alert alert-success">
+            {% for msg in app.session.flashBag.get('success') %}
+                {{ msg }}
+            {% endfor %}
+        </div>
+    {% elseif app.session.flashBag.has('error') %}
+        <div class="alert alert-danger">
+            {% for msg in app.session.flashBag.get('error') %}
+                {{ msg }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul class="nav navbar-nav">
@@ -29,7 +44,7 @@
                             <a href="#">Connexion</a>
                         </li>
                     </ul>
-                    <a href="{{ path('participate') }}"><button type="button" id="participate" class="btn btn-secondary">Je participe</button></a>
+                    <a href="{{ path('participate_index') }}"><button type="button" id="participate" class="btn btn-secondary">Je participe</button></a>
                 </div>
             </div>
         </nav>

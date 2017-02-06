@@ -42,14 +42,14 @@ class Contest
      *
      * @ORM\Column(name="date_start", type="date")
      */
-    private $date_start;
+    private $dateStart;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_end", type="date")
      */
-    private $date_end;
+    private $dateEnd;
 
     /**
      * @var integer
@@ -198,7 +198,7 @@ class Contest
      */
     public function setDateEnd($date_end)
     {
-        $this->date_end = $date_end;
+        $this->dateEnd = $date_end;
         return $this;
     }
 
@@ -209,7 +209,7 @@ class Contest
 
     public function getDateEnd()
     {
-        return $this->date_end;
+        return $this->dateEnd;
     }
 
     /**
@@ -220,7 +220,7 @@ class Contest
      */
     public function setDateStart($date_start)
     {
-        $this->date_start = $date_start;
+        $this->dateStart = $date_start;
         return $this;
     }
 
@@ -231,7 +231,7 @@ class Contest
 
     public function getDateStart()
     {
-        return $this->date_start;
+        return $this->dateStart;
     }
 
     /**
@@ -400,7 +400,7 @@ class Contest
      * @param \AppBundle\Entity\Rule $rule
      * @return Contest
      */
-    public function addPrize(\AppBundle\Entity\Rule $rule)
+    public function addRule(\AppBundle\Entity\Rule $rule)
     {
         $this->rules[] = $rule;
 
@@ -410,7 +410,7 @@ class Contest
     /**
      * Remove rules
      *
-     * @param \AppBundle\Entity\Prize $rule
+     * @param \AppBundle\Entity\Rule $rule
      */
     public function removeRule(\AppBundle\Entity\Rule $rule)
     {

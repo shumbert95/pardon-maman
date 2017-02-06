@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,28 @@ class ContestParticipant
      * @ORM\Column(name="date_inscription", type="datetime")
      */
     private $dateInscription;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="votes", type="integer", options={"default": 0})
+     */
+    private $votes;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinTable(name="contest_participant_voter",
+     *      joinColumns={@ORM\JoinColumn(name="contest_participant_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     */
+    private $voters;
+
+    public function __construct()
+    {
+        $this->voters = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -147,6 +170,78 @@ class ContestParticipant
     public function getDateInscription()
     {
         return $this->dateInscription;
+    }
+
+    /**
+     * Set votes
+     *
+     * @param integer $votes
+     *
+     * @return ContestParticipant
+     */
+    public function setVotes($votes)
+    {
+        $this->votes = $votes;
+
+        return $this;
+    }
+
+    /**
+     * Get votes
+     *
+     * @return ContestParticipant
+     */
+    public function getVotes()
+    {
+        return $this->votes;
+    }
+
+    public function increaseVotes()
+    {
+        $this->votes = $this->votes+1;
+        return $this;
+    }
+
+    /**
+     * Set voters
+     *
+     */
+    public function setVoters($voters)
+    {
+        $this->voters = $voters;
+        return $this;
+    }
+
+    /**
+     * Get voters
+     *
+     */
+    public function getVoters()
+    {
+        return $this->voters;
+    }
+
+    /**
+     * Add voters
+     *
+     * @param \AppBundle\Entity\User $voter
+     * @return Contest
+     */
+    public function addVoter(\AppBundle\Entity\User $voter)
+    {
+        $this->voters[] = $voter;
+
+        return $this;
+    }
+
+    /**
+     * Remove voters
+     *
+     * @param \AppBundle\Entity\User $voter
+     */
+    public function removeVoter(\AppBundle\Entity\User $voter)
+    {
+        $this->voters->removeElement($voter);
     }
 }
 

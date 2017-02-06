@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="photo")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PhotoRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Photo
 {
@@ -33,7 +34,7 @@ class Photo
      *
      * @ORM\Column(name="facebook_id", type="string", length=255)
      */
-    private $facebook_id;
+    private $facebookId;
 
     /**
      * @var \DateTime
@@ -50,11 +51,11 @@ class Photo
     private $dateUpdate;
 
     /**
-     * @var int
+     * @var boolean
      *
-     * @ORM\Column(name="active", type="integer")
+     * @ORM\Column(name="status", type="boolean")
      */
-    private $active;
+    private $status;
 
 
     /**
@@ -140,33 +141,9 @@ class Photo
     }
 
     /**
-     * Set active
-     *
-     * @param integer $active
-     *
-     * @return Photo
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * Get active
-     *
-     * @return int
-     */
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-    /**
      * Set facebook_id
      *
-     * @param string $facebook_id
+     * @param string $facebookId
      * @return User
      */
     public function setFacebookId($facebook_id)
@@ -177,13 +154,53 @@ class Photo
     }
 
     /**
-     * Get facebook_id
+     * Get facebookId
      *
      * @return string
      */
     public function getFacebookId()
     {
         return $this->facebookId;
+    }
+
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     *
+     * @return Prize
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->date_add = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->date_update = new \DateTime();
     }
 }
 

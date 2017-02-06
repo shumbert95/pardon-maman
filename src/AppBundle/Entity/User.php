@@ -62,6 +62,16 @@ class User
     private $status;
 
     /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Set lastname
      *
      * @param string $lastname

@@ -36,10 +36,35 @@ class Participant
      */
     private $prizes;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status", type="boolean")
+     */
+    private $status;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_add", type="datetime")
+     */
+    private $dateAdd;
+
 
     public function __construct() {
-        $this->stayOptions = new ArrayCollection();
+        $this->prizes = new ArrayCollection();
     }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     /**
      *
      * @param User|null $user
@@ -90,5 +115,54 @@ class Participant
     public function removePrize(\AppBundle\Entity\Prize $prize)
     {
         $this->prizes->removeElement($prize);
+    }
+
+
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     *
+     * @return Prize
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set dateAdd
+     *
+     * @param \DateTime $dateAdd
+     *
+     * @return Photo
+     */
+    public function setDateAdd($dateAdd)
+    {
+        $this->dateAdd = $dateAdd;
+
+        return $this;
+    }
+
+    /**
+     * Get dateAdd
+     *
+     * @return \DateTime
+     */
+    public function getDateAdd()
+    {
+        return $this->dateAdd;
     }
 }

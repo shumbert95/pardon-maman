@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <span class=""><h2> Votre participation a été prise en compte </h2></span>
+        </div>
+        <div class="row center-block" id ="album-list">
+            {% for key,photo in album.photos %}
+                <div class="album-cover col-md-3" >
+                    <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ photo.picture }})";>
+                    <div id="myModal_{{ key }}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">{{ album.name }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <img class="image-grande" src="{{ photo.picture }}">
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{{ path('participate_photo', { 'albumId': album.id, 'photoId': photo.id }) }}"><button type="button" class="btn btn-secondary" id="selectionner" data-album="{{ album.id }}" data-photo="{{ photo.id }}">Sélectionner</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/transfert.css') }}">
+{% endblock %}

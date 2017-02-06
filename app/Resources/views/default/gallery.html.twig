@@ -3,7 +3,7 @@
 {% block body %}
 <div class="container">
     <div class="row">
-        <h1 class="col-md-9 col-md-offset-1">Concours photo du 12/11/2016 au 01/01/2017</h1>
+        <h1 class="col-md-9 col-md-offset-1">{{ contest.name }} du {{ contest.dateStart|date('d/m/Y') }} au {{ contest.dateEnd|date('d/m/Y') }}</h1>
         <div class="filters col-md-2">
             <div class="dropdown">
                 <button class="btn btn-secondary btn-border dropdown-toggle" type="button" data-toggle="dropdown">Filtrer par
@@ -19,54 +19,38 @@
         </div>
     </div>
     <ul class="list-photos">
-        <li class="col-md-4 picture-block">
-            <img src="../public/img/image1.jpg">
-            <div class="picture-info">
-                <span class="nb-likes col-md-4">15 <span class="glyphicon glyphicon-heart"></span></span>
-                <span class="picture-owner col-md-4">Clément S.</span>
-                <span class="date-add col-md-4">10/12/2016</span>
+        {% for key,contestParticipant in contest.contestParticipants %}
+            <div class="album-cover col-md-3" >
+                <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ contestParticipant.photo.link }})";>
+                <div id="myModal_{{ key }}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Photo de {{ contestParticipant.participant.user.firstname }} {{ contestParticipant.participant.user.lastname|truncate(1, false, '') }}.</h4>
+                            </div>
+                            <div class="modal-body">
+                                <img class="image-grande" src="{{ contestParticipant.photo.link }}">
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}"><button type="button" class="btn btn-secondary">Voter</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="picture-info">
+                    <span class="nb-likes col-md-4">{{ contestParticipant.votes }} <span class="glyphicon glyphicon-heart"></span></span>
+                    <span class="picture-owner col-md-4">{{ contestParticipant.participant.user.firstname }} {{ contestParticipant.participant.user.lastname|truncate(1, false, '') }}.</span>
+                    <span class="date-add col-md-4">{{ contestParticipant.dateInscription|date('d/m/Y') }}</span>
+                </div>
             </div>
-        </li>
-        <li class="col-md-4 picture-block">
-            <img src="../public/img/image1.jpg">
-            <div class="picture-info">
-                <span class="nb-likes col-md-4">15 <span class="glyphicon glyphicon-heart"></span></span>
-                <span class="picture-owner col-md-4">Clément S.</span>
-                <span class="date-add col-md-4">10/12/2016</span>
-            </div>                </li>
-        <li class="col-md-4 picture-block">
-            <img src="../public/img/image1.jpg">
-            <div class="picture-info">
-                <span class="nb-likes col-md-4">15 <span class="glyphicon glyphicon-heart"></span></span>
-                <span class="picture-owner col-md-4">Clément S.</span>
-                <span class="date-add col-md-4">10/12/2016</span>
-            </div>                </li>
-        <li class="col-md-4 picture-block">
-            <img src="../public/img/image1.jpg">
-            <div class="picture-info">
-                <span class="nb-likes col-md-4">15 <span class="glyphicon glyphicon-heart"></span></span>
-                <span class="picture-owner col-md-4">Clément S.</span>
-                <span class="date-add col-md-4">10/12/2016</span>
-            </div>                </li>
-        <li class="col-md-4 picture-block">
-            <img src="../public/img/image1.jpg">
-            <div class="picture-info">
-                <span class="nb-likes col-md-4">15 <span class="glyphicon glyphicon-heart"></span></span>
-                <span class="picture-owner col-md-4">Clément S.</span>
-                <span class="date-add col-md-4">10/12/2016</span>
-            </div>                </li>
-        <li class="col-md-4 picture-block">
-            <img src="../public/img/image1.jpg">
-            <div class="picture-info">
-                <span class="nb-likes col-md-4">15 <span class="glyphicon glyphicon-heart"></span></span>
-                <span class="picture-owner col-md-4">Clément S.</span>
-                <span class="date-add col-md-4">10/12/2016</span>
-            </div>                </li>
+        {% endfor %}
     </ul>
 </div>
 <button type="button" class="btn btn-secondary btn-border btn-see-more">Voir plus d'images</button>
 {% endblock %}
 
 {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/transfert.css') }}">
     <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 {% endblock %}

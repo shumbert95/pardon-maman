@@ -8,12 +8,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller
+class VoteController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/vote/{contestParticipantId}", name="vote_photo")
      */
-    public function indexAction(Request $request)
+    public function votePhotoAction(Request $request, $contestParticipantId)
     {
         $session = $request->getSession();
         $doctrine = $this->getDoctrine();
@@ -21,30 +21,8 @@ class DefaultController extends Controller
         $fb = new FacebookService($this->container->getParameter('appId'), $this->container->getParameter('appSecret'));
         $admin = $fb->checkIfUserAdmin($session);
 
-        $contest = $doctrine->getRepository('AppBundle:Contest')->findOneByStatus(1);
-        if (!$contest) {
-
-        }
-
-        // replace this example code with whatever you need
-        return $this->render('default/home.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            'controller' => 'home',
-            'contest' => $contest,
-            'admin' => $admin
-        ]);
-    }
-
-    /**
-     * @Route("/gallery", name="gallery")
-     */
-    public function galleryAction(Request $request)
-    {
-        $session = $request->getSession();
-        $doctrine = $this->getDoctrine();
-
-        $fb = new FacebookService($this->container->getParameter('appId'), $this->container->getParameter('appSecret'));
-        $admin = $fb->checkIfUserAdmin($session);
+        $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->find($contestParticipantId);
+        $contestParticipant->increaseVotes();
 
         $contest = $doctrine->getRepository('AppBundle:Contest')->findOneBy(['status' => 1]);
         $contestParticipants = $contest->getContestParticipants();

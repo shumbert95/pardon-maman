@@ -70,7 +70,7 @@ class ParticipateController extends Controller
         $app = $fb->getApp();
         $app->setDefaultAccessToken($session->get('accessToken'));
 
-        $album = $app->get('/'.$albumId.'?fields=name,photos{picture}')->getGraphAlbum();
+        $album = $app->get('/'.$albumId.'?fields=name,photos{images}')->getGraphAlbum();
 
         return $this->render('default/participate_photos.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,

@@ -14,7 +14,7 @@
         <div class="row center-block" id ="album-list">
             {% for key,photo in album.photos %}
                 <div class="album-cover col-md-3" >
-                    <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ photo.picture }})";>
+                    <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ photo.images[0].source }})";>
                     <div id="myModal_{{ key }}" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -23,7 +23,7 @@
                                     <h4 class="modal-title">{{ album.name }}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <img class="image-grande" src="{{ photo.picture }}">
+                                    <img class="image-grande" src="{{ photo.images[0].source }}">
                                 </div>
                                 <div class="modal-footer">
                                     <a href="{{ path('participate_photo_facebook', { 'albumId': album.id, 'photoId': photo.id }) }}"><button type="button" class="btn btn-secondary" id="selectionner" data-album="{{ album.id }}" data-photo="{{ photo.id }}">Sélectionner</button></a>

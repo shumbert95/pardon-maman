@@ -31,7 +31,7 @@ class ParticipateController extends Controller
         $app = $fb->getApp();
         $app->setDefaultAccessToken($session->get('accessToken'));
 
-        $albums = $app->get('/me?fields=albums{name,picture}')->getGraphAlbum();
+        $albums = $app->get('/me?fields=albums{name, cover_photo{images}}')->getGraphAlbum();
         foreach($albums as $index => $album) {
             if ($index == 'albums') {
                 $albums = $album;
@@ -126,7 +126,7 @@ class ParticipateController extends Controller
             $contestParticipant->setDateInscritpion(new \DateTime());
         }
 
-        $facebookPhoto = $app->get('/'.$photoId.'?fields=picture')->getGraphAlbum();
+        $facebookPhoto = $app->get('/'.$photoId.'?fields=images')->getGraphAlbum();
         $photo = $doctrine->getRepository('AppBundle:Photo')->findOneBy(['facebookId' => $facebookPhoto->getId()]);
         $new_photo = false;
 
@@ -140,10 +140,11 @@ class ParticipateController extends Controller
         if (!$new_photo) {
             $photo->setDateUpdate(new \DateTime());
         }
-        $photo->setLink($facebookPhoto['picture']);
+        $photo->setLink($facebookPhoto['images'][0]['source']);
         $doctrine->getEntityManager()->persist($photo);
 
         $contestParticipant->setPhoto($photo);
+        $contestParticipant->setVotes(0);
         $doctrine->getEntityManager()->persist($contestParticipant);
 
         $doctrine->getEntityManager()->flush();
@@ -167,8 +168,7 @@ class ParticipateController extends Controller
     {
         $form = $this->createForm('text');
         $form->handleRequest($request);
-        dump($form);
-        die();
+
         $session = $request->getSession();
         $doctrine = $this->getDoctrine();
         $user = $doctrine
@@ -209,9 +209,10 @@ class ParticipateController extends Controller
             $contestParticipant->setDateInscritpion(new \DateTime());
         }
 
-        $facebookPhoto = $app->get('/'.$photoId.'?fields=picture')->getGraphAlbum();
+        $facebookPhoto = $app->get('/'.$photoId.'?fields=images')->getGraphAlbum();
         $photo = $doctrine->getRepository('AppBundle:Photo')->findOneBy(['facebookId' => $facebookPhoto->getId()]);
         $new_photo = false;
+
 
         if (!$photo) {
             $new_photo = true;

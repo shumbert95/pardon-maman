@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <span class=""><h2> Transférer une photo </h2></span>
+           <h2> Transférer une photo </h2>
         </div>
         <div class="row">
             <select>
@@ -26,7 +26,7 @@
                                     <img class="image-grande" src="{{ photo.picture }}">
                                 </div>
                                 <div class="modal-footer">
-                                    <a href="{{ path('participate_photo', { 'albumId': album.id, 'photoId': photo.id }) }}"><button type="button" class="btn btn-secondary" id="selectionner" data-album="{{ album.id }}" data-photo="{{ photo.id }}">Sélectionner</button></a>
+                                    <a href="{{ path('participate_photo_facebook', { 'albumId': album.id, 'photoId': photo.id }) }}"><button type="button" class="btn btn-secondary" id="selectionner" data-album="{{ album.id }}" data-photo="{{ photo.id }}">Sélectionner</button></a>
                                 </div>
                             </div>
                         </div>

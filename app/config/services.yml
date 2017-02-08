@@ -4,9 +4,15 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
      facebook_service:
           class: AppBundle\Services\FacebookService
           arguments: ['%appId%', '%appSecret%']
+     app.event_listener.doctrine_listener:
+          class: AppBundle\EventListener\DoctrineListener
+          arguments: [ %kernel.root_dir%/files, "@service_container" ]
+          tags:
+              - { name: doctrine.event_listener, event: prePersist }
+              - { name: doctrine.event_listener, event: postPersist }
+              - { name: doctrine.event_listener, event: postRemove }
+              - { name: doctrine.event_listener, event: preUpdate }
+              - { name: doctrine.event_listener, event: postUpdate }

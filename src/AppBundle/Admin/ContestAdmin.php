@@ -26,8 +26,8 @@ class ContestAdmin extends AbstractAdmin
         'label' => 'Règles',
         'multiple' => true,
         'class' => Rule::class]);
-        $formMapper->add('status', null, ['label' => 'En ligne', 'attr' => ['checked' => 'checked']]);
-        $formMapper->add('participants', 'entity', ['class' => Participant::class, 'label' => 'Participants', 'disabled' => true]);
+        $formMapper->add('status', null, ['label' => 'En ligne']);
+//        $formMapper->add('participants', 'entity', ['class' => Participant::class, 'label' => 'Participants', 'disabled' => true]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -39,19 +39,8 @@ class ContestAdmin extends AbstractAdmin
     {
         $list->addIdentifier('name', null, ['label' => 'Nom'])
             ->add('description', null, ['label' => 'Description'])
-            ->add('date_start', null, ['label' => 'Date de début'])
-            ->add('date_end', null, ['label' => 'Date de fin'])
+            ->add('date_start', 'date', ['label' => 'Date de début'])
+            ->add('date_end', 'date', ['label' => 'Date de fin'])
             ->add('status', null, ['label' => 'En ligne', 'editable' => true]);
     }
-
-//    public function preUpdate($object)
-//    {
-//        $object->setDateUpdate(new \DateTime(date('Y-m-d H:i:s')));
-//    }
-//
-//    public function prePersist($object)
-//    {
-//        $object->setDateAdd( new \DateTime(date('Y-m-d H:i:s')));
-//        $em = $this->getModelManager()->getEntityManager($this->getClass());
-//    }
 }

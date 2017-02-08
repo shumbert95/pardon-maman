@@ -202,6 +202,12 @@ class ContestParticipant
         return $this;
     }
 
+    public function decreaseVotes()
+    {
+        $this->votes = $this->votes-1;
+        return $this;
+    }
+
     /**
      * Set voters
      *

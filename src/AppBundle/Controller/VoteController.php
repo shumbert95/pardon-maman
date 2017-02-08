@@ -17,15 +17,27 @@ class VoteController extends Controller
     {
         $session = $request->getSession();
         $doctrine = $this->getDoctrine();
+        $em = $this->getDoctrine()->getEntityManager();
 
         $fb = new FacebookService($this->container->getParameter('appId'), $this->container->getParameter('appSecret'));
         $admin = $fb->checkIfUserAdmin($session);
 
         $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->find($contestParticipantId);
-        $contestParticipant->increaseVotes();
+        $user = $doctrine->getRepository('AppBundle:User')->find($session->get('user')->getId());
+        if ($contestParticipant->getVoters()->contains($user)) {
+            $contestParticipant->decreaseVotes();
+            $contestParticipant->removeVoter($user);
+        } else {
+            $contestParticipant->increaseVotes();
+            $contestParticipant->addVoter($user);
+            $session->getFlashBag()->add('success', 'Votre vote a été pris en compte');
+        }
+
+        $em->flush();
 
         $contest = $doctrine->getRepository('AppBundle:Contest')->findOneBy(['status' => 1]);
         $contestParticipants = $contest->getContestParticipants();
+
 
         return $this->render('default/gallery.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
@@ -33,34 +45,6 @@ class VoteController extends Controller
             'admin' => $admin,
             'contest' => $contest,
             'contestParticipants' => $contestParticipants
-        ]);
-    }
-
-    /**
-     * @Route("/rules", name="rules")
-     */
-    public function rulesAction(Request $request)
-    {
-        $session = $request->getSession();
-        $doctrine = $this->getDoctrine();
-
-        $fb = new FacebookService($this->container->getParameter('appId'), $this->container->getParameter('appSecret'));
-        $admin = $fb->checkIfUserAdmin($session);
-
-        $contest = $doctrine->getRepository('AppBundle:Contest')->findOneByStatus(1);
-        if (!$contest) {
-
-        }
-
-        $rules = $contest->getRules();
-
-        // replace this example code with whatever you need
-        return $this->render('default/rules.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            'controller' => 'rules',
-            'admin' => $admin,
-            'contest' => $contest,
-            'rules' => $rules,
         ]);
     }
 }

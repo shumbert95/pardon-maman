@@ -15,6 +15,11 @@ sonata_admin:
                 label_catalogue: admin
                 item:
                   - app.admin.user
+            cms:
+                label: CMS
+                label_catalogue: admin
+                item:
+                  - app.admin.page
 services:
     app.admin.contest:
         class: AppBundle\Admin\ContestAdmin
@@ -41,3 +46,8 @@ services:
                 arguments: [~, AppBundle\Entity\User, ~]
                 tags:
                     - { name: sonata.admin, manager_type: orm, label: Utilisateurs }
+    app.admin.page:
+                class: AppBundle\Admin\PageAdmin
+                arguments: [~, AppBundle\Entity\Page, ~]
+                tags:
+                    - { name: sonata.admin, manager_type: orm, label: PAges }

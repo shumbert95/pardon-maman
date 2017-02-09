@@ -25,7 +25,7 @@ class ParticipateController extends Controller
         $session = $request->getSession();
         $doctrine = $this->getDoctrine();
 
-        $fb = new FacebookService($this->container->getParameter('appId'), $this->container->getParameter('appSecret'));
+        $fb = $this->container->get('facebook_service');
         $admin = $fb->checkIfUserAdmin($session);
 
         $app = $fb->getApp();
@@ -37,15 +37,130 @@ class ParticipateController extends Controller
                 $albums = $album;
             }
         }
+
         $form = $this->createFormBuilder()
-            ->add('title', 'text', ['label' => 'Nom de l\'album'])
-            ->add('photo', FileType::class, ['label' => 'Photo'])
-            ->add('submit', ButtonType::class, array(
-                'attr' => array('class' => 'btn btn-secondary save'),
-                'label' => 'Participer'
-            ))
+            ->add('title', 'text', ['required' => true, 'label' => 'Nom de l\'album'])
+            ->add('description', 'text', ['required' => true, 'label' => 'Description de l\'album'])
+            ->add('photo', FileType::class, ['required' => true, 'label' => 'Photo'])
             ->getForm();
         $form->handleRequest($request);
+        if ($form->isValid()) {
+            $album_details = array(
+                'message'=> $form->getViewData()['description'],
+                'name' => $form->getViewData()['title']
+            );
+            $myFile = $app->fileToUpload($form->getViewData()['photo']->getPathname());
+            if (!$myFile) {
+                $session->getFlashBag()->add('error', 'Une erreur est survenue. Si le problème persiste, veuillez contacter un administrateur.');
+                return $this->render('default/participate.html.twig', [
+                    'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                    'controller' => 'participate',
+                    'admin' => $admin,
+                    'form' => $form->createView(),
+                    'albums' => $albums
+                ]);
+            }
+
+            $create_album = $app->post('/me/albums', $album_details);
+            $photo_details = array(
+              'source' => $myFile
+            );
+            if ($create_album){
+                $publish_photo = $app->post('/'.$create_album->getGraphAlbum()['id'].'/photos', $photo_details);
+            } else {
+                $session->getFlashBag()->add('error', 'Une erreur est survenue. Si le problème persiste, veuillez contacter un administrateur.');
+                return $this->render('default/participate.html.twig', [
+                    'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                    'controller' => 'participate',
+                    'admin' => $admin,
+                    'form' => $form->createView(),
+                    'albums' => $albums
+                ]);
+            }
+
+            if ($publish_photo) {
+                $user = $doctrine
+                    ->getRepository('AppBundle:User')->find($session->get('user')->getId());
+                if (!$user) {
+                    throw new \Exception('Une erreur est survenue. Veuillez rechargez la page.');
+                }
+
+                $fb = $this->container->get('facebook_service');
+                $app = $fb->getApp();
+                $app->setDefaultAccessToken($session->get('accessToken'));
+                $admin = $fb->checkIfUserAdmin($session);
+
+                $contest = $doctrine->getRepository('AppBundle:Contest')->findOneByStatus(1);
+
+                $participant = $doctrine->getRepository('AppBundle:Participant')->findOneByUser($user);
+                if (!$participant) {
+                    $participant = new Participant();
+                    $participant->setUser($user);
+                    $participant->setStatus(1);
+                    $participant->setDateAdd(new \DateTime());
+                    $doctrine->getEntityManager()->persist($participant);
+                }
+
+                $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['participant' => $participant->getId(), 'contest' => $contest->getId()]);
+                if ($contestParticipant) {
+                    $session->getFlashBag()->add('error', 'Votre participation n\'a pas été prise en compte. Vous avez déjà participé à ce concours');
+                    return $this->render('default/home.html.twig', [
+                        'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                        'controller' => 'participate',
+                        'admin' => $admin,
+                        'contest' => $contest
+                    ]);
+                } else {
+                    $contestParticipant = new ContestParticipant();
+                    $contestParticipant->setContest($contest);
+                    $contestParticipant->setParticipant($participant);
+                    $contestParticipant->setDateInscritpion(new \DateTime());
+                }
+
+                $facebookPhoto = $app->get('/'.$publish_photo->getGraphAlbum()['id'].'?fields=images')->getGraphAlbum();
+                $photo = $doctrine->getRepository('AppBundle:Photo')->findOneBy(['facebookId' => $facebookPhoto->getId()]);
+                $new_photo = false;
+
+                if (!$photo) {
+                    $new_photo = true;
+                    $photo = new Photo();
+                    $photo->setFacebookId($facebookPhoto->getId());
+                    $photo->setStatus(1);
+                    $photo->setDateAdd(new \DateTime());
+                }
+                if (!$new_photo) {
+                    $photo->setDateUpdate(new \DateTime());
+                }
+                $photo->setLink($facebookPhoto['images'][0]['source']);
+                $doctrine->getEntityManager()->persist($photo);
+
+                $contestParticipant->setPhoto($photo);
+                $contestParticipant->setVotes(0);
+                $doctrine->getEntityManager()->persist($contestParticipant);
+
+                $doctrine->getEntityManager()->flush();
+
+                $session->getFlashBag()->add('success', 'Votre inscription a été prise en compte');
+
+
+                return $this->render('default/home.html.twig', [
+                    'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                    'controller' => 'participate',
+                    'admin' => $admin,
+                    'contest' => $contest,
+                    'photo' => $photo
+                ]);
+            } else {
+                $session->getFlashBag()->add('error', 'Une erreur est survenue. Si le problème persiste, veuillez contacter un administrateur.');
+                return $this->render('default/participate.html.twig', [
+                    'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                    'controller' => 'participate',
+                    'admin' => $admin,
+                    'form' => $form->createView(),
+                    'albums' => $albums
+                ]);
+            }
+        }
 
         return $this->render('default/participate.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
@@ -64,7 +179,7 @@ class ParticipateController extends Controller
         $session = $request->getSession();
         $doctrine = $this->getDoctrine();
 
-        $fb = new FacebookService($this->container->getParameter('appId'), $this->container->getParameter('appSecret'));
+        $fb = $this->container->get('facebook_service');
         $admin = $fb->checkIfUserAdmin($session);
 
         $app = $fb->getApp();
@@ -94,7 +209,7 @@ class ParticipateController extends Controller
             throw new \Exception('Une erreur est survenue. Veuillez rechargez la page.');
         }
 
-        $fb = new FacebookService($this->container->getParameter('appId'), $this->container->getParameter('appSecret'));
+        $fb = $this->container->get('facebook_service');
         $app = $fb->getApp();
         $app->setDefaultAccessToken($session->get('accessToken'));
         $admin = $fb->checkIfUserAdmin($session);
@@ -161,86 +276,4 @@ class ParticipateController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/participate/import", name="participate_photo_desktop")
-     */
-    public function importPhotoAction(Request $request)
-    {
-        $form = $this->createForm('text');
-        $form->handleRequest($request);
-
-        $session = $request->getSession();
-        $doctrine = $this->getDoctrine();
-        $user = $doctrine
-            ->getRepository('AppBundle:User')->find($session->get('user')->getId());
-        if (!$user) {
-            throw new \Exception('Une erreur est survenue. Veuillez rechargez la page.');
-        }
-
-        $fb = new FacebookService($this->container->getParameter('appId'), $this->container->getParameter('appSecret'));
-        $app = $fb->getApp();
-        $app->setDefaultAccessToken($session->get('accessToken'));
-        $admin = $fb->checkIfUserAdmin($session);
-
-        $contest = $doctrine->getRepository('AppBundle:Contest')->findOneByStatus(1);
-
-        $participant = $doctrine->getRepository('AppBundle:Participant')->findOneByUser($user);
-        if (!$participant) {
-            $participant = new Participant();
-            $participant->setUser($user);
-            $participant->setStatus(1);
-            $participant->setDateAdd(new \DateTime());
-            $doctrine->getEntityManager()->persist($participant);
-        }
-
-        $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['participant' => $participant->getId(), 'contest' => $contest->getId()]);
-        if ($contestParticipant) {
-            $session->getFlashBag()->add('error', 'Votre participation n\'a pas été prise en compte. Vous avez déjà participé à ce concours');
-            return $this->render('default/home.html.twig', [
-                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-                'controller' => 'participate',
-                'admin' => $admin,
-                'contest' => $contest
-            ]);
-        } else {
-            $contestParticipant = new ContestParticipant();
-            $contestParticipant->setContest($contest);
-            $contestParticipant->setParticipant($participant);
-            $contestParticipant->setDateInscritpion(new \DateTime());
-        }
-
-        $facebookPhoto = $app->get('/'.$photoId.'?fields=images')->getGraphAlbum();
-        $photo = $doctrine->getRepository('AppBundle:Photo')->findOneBy(['facebookId' => $facebookPhoto->getId()]);
-        $new_photo = false;
-
-
-        if (!$photo) {
-            $new_photo = true;
-            $photo = new Photo();
-            $photo->setFacebookId($facebookPhoto->getId());
-            $photo->setStatus(1);
-            $photo->setDateAdd(new \DateTime());
-        }
-        if (!$new_photo) {
-            $photo->setDateUpdate(new \DateTime());
-        }
-        $photo->setLink($facebookPhoto['picture']);
-        $doctrine->getEntityManager()->persist($photo);
-
-        $contestParticipant->setPhoto($photo);
-        $doctrine->getEntityManager()->persist($contestParticipant);
-
-        $doctrine->getEntityManager()->flush();
-
-        $session->getFlashBag()->add('success', 'Votre inscription a été prise en compte');
-
-
-        return $this->render('default/home.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            'controller' => 'participate',
-            'admin' => $admin,
-            'contest' => $contest,
-            'photo' => $photo
-        ]);
-    }
 }

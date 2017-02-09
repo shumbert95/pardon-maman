@@ -10,4 +10,75 @@ namespace AppBundle\Repository;
  */
 class ContestParticipantRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getContestWinner($contest)
+    {
+        $qb = $this->createQueryBuilder('cp');
+
+        $qb->join('AppBundle:Contest', 'c', 'WITH', 'cp.contest = c')
+            ->where('cp.contest = :contest')
+//            ->andWhere('r.deleted = 0')
+            ->setParameter('contest', $contest)
+            ->orderBy('cp.votes', 'DESC')
+            ->setMaxResults(1)
+            ->distinct();
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findContestParticipantsDateAsc($contest)
+    {
+        $qb = $this->createQueryBuilder('cp');
+
+        $qb->where('cp.contest = :contest')
+            ->setParameter('contest', $contest)
+            ->orderBy('cp.dateInscription', 'ASC')
+            ->distinct();
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findContestParticipantsDateDesc($contest)
+    {
+        $qb = $this->createQueryBuilder('cp');
+
+        $qb->where('cp.contest = :contest')
+            ->setParameter('contest', $contest)
+            ->orderBy('cp.dateInscription', 'DESC')
+            ->distinct();
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findContestParticipantsVoteAsc($contest)
+    {
+        $qb = $this->createQueryBuilder('cp');
+
+        $qb->where('cp.contest = :contest')
+            ->setParameter('contest', $contest)
+            ->orderBy('cp.votes', 'ASC')
+            ->distinct();
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findContestParticipantsVoteDesc($contest)
+    {
+        $qb = $this->createQueryBuilder('cp');
+
+        $qb->where('cp.contest = :contest')
+            ->setParameter('contest', $contest)
+            ->orderBy('cp.votes', 'DESC')
+            ->distinct();
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getRandomContestParticipants()
+    {
+        return  $this->createQueryBuilder('q')
+            ->addSelect('RAND() as HIDDEN rand')
+            ->addOrderBy('rand')
+            ->getQuery()
+            ->getResult();
+    }
 }

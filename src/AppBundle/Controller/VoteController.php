@@ -19,7 +19,7 @@ class VoteController extends Controller
         $doctrine = $this->getDoctrine();
         $em = $this->getDoctrine()->getEntityManager();
 
-        $fb = new FacebookService($this->container->getParameter('appId'), $this->container->getParameter('appSecret'));
+        $fb = $this->container->get('facebook_service');
         $admin = $fb->checkIfUserAdmin($session);
 
         $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->find($contestParticipantId);

@@ -50,17 +50,15 @@ class Contest
      * @ORM\Column(name="date_end", type="date")
      */
     private $dateEnd;
-
     /**
-     * @var integer
      *
-     * @ORM\Column(name="id_winner", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="ContestParticipant", inversedBy="contests", cascade={"merge", "persist"})
      */
-    private $id_winner;
+    private $winner;
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Template", inversedBy="reservations", cascade={"merge", "persist"})
+     * @ORM\ManyToOne(targetEntity="Template", inversedBy="contests", cascade={"merge", "persist"})
      */
     private $template;
 
@@ -75,7 +73,7 @@ class Contest
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Prize", inversedBy="reservations", cascade={"merge", "persist"})
+     * @ORM\ManyToOne(targetEntity="Prize", inversedBy="contests", cascade={"merge", "persist"})
      */
     private $prize;
 
@@ -306,9 +304,33 @@ class Contest
     }
 
     /**
+     * Set winner
+     *
+     * @param ContestParticipant $winner
+     *
+     * @return Contest
+     */
+    public function setWinner($winner)
+    {
+        $this->winner = $winner;
+        return $this;
+    }
+
+    /**
+     * Get winner
+     *
+     * @return ContestParticipant
+     */
+
+    public function getWinner()
+    {
+        return $this->winner;
+    }
+
+    /**
      * Set template
      *
-     * @param Prize $template
+     * @param Template $template
      *
      * @return Contest
      */

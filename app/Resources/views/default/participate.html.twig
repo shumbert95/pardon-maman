@@ -15,26 +15,29 @@
             <h3>Sélectionnez un album</h3>
             <div class="row center-block">
                 {% for key,album in albums %}
-                    {#{{ dump(album) }}#}
-                    {#<div class="album-cover col-md-3" >#}
-                        {#<img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ album.cover_photo.images[0].source }})";>#}
-                        {#<div id="myModal_{{ key }}" class="modal fade" role="dialog">#}
-                            {#<div class="modal-dialog">#}
-                                {#<div class="modal-content">#}
-                                    {#<div class="modal-header">#}
-                                        {#<button type="button" class="close" data-dismiss="modal">&times;</button>#}
-                                        {#<h4 class="modal-title">{{ album.name }}</h4>#}
-                                    {#</div>#}
-                                    {#<div class="modal-body">#}
-                                        {#<img class="image-grande" src="{{ album.cover_photo.images[0].source }}">#}
-                                    {#</div>#}
-                                    {#<div class="modal-footer">#}
-                                        {#<a href="{{ path('participate_album', { 'albumId': album.id }) }}"><button type="button" class="btn btn-secondary">Sélectionner</button></a>#}
-                                    {#</div>#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
+                    <div class="album-cover col-md-3" >
+                    {% if album.cover_photo is defined %}
+                        <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ album.cover_photo.images[0].source }})";>
+                    {% endif %}
+                        <div id="myModal_{{ key }}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">{{ album.name }}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                    {% if album.cover_photo is defined %}
+                                        <img class="image-grande" src="{{ album.cover_photo.images[0].source }}">
+                                     {% endif %}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{{ path('participate_album', { 'albumId': album.id }) }}"><button type="button" class="btn btn-secondary">Sélectionner</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
         </div>
@@ -43,37 +46,47 @@
             <h3>Sélectionnez un album dans lequel publier la photo :</h3>
             <div class="row center-block">
                 {% for key,album in albums %}
-                    {#<div class="album-cover col-md-3" >#}
-                        {#<img class="crop image-transfert " data-toggle="modal" data-target="#myModal_2_{{ key }}" style="background-image: url({{  album.cover_photo.images[0].source }})";>#}
-                        {#<div id="myModal_2_{{ key }}" class="modal fade" role="dialog">#}
-                            {#<div class="modal-dialog">#}
-                                {#<div class="modal-content">#}
-                                    {#<div class="modal-header">#}
-                                        {#<button type="button" class="close" data-dismiss="modal">&times;</button>#}
-                                        {#<h4 class="modal-title">{{ album.name }}</h4>#}
-                                    {#</div>#}
-                                    {#<div class="modal-body">#}
-                                        {#<p>form</p>#}
-                                    {#</div>#}
-                                    {#<div class="modal-footer">#}
-                                        {#<a href="{{ path('participate_album', { 'albumId': album.id }) }}"><button type="button" class="btn btn-secondary" id="selectionner">Sélectionner</button></a>#}
-                                    {#</div>#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
+                    <div class="album-cover col-md-3" >
+                    {% if album.cover_photo is defined %}
+                        <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_2_{{ key }}" style="background-image: url({{  album.cover_photo.images[0].source }})";>
+                    {% endif %}
+                        <div id="myModal_2_{{ key }}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <form method="POST" enctype='multipart/form-data'>
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title"></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ form_start(formPhoto) }}
+                                            {{ form_label(formPhoto.photo) }}
+                                            {{ form_widget(formPhoto.photo) }}
+                                            {{ form_end(formPhoto) }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-green btn-lg has-subtext"
+                                                    onclick="jQuery(this).closest('form').submit();">
+                                                <span class="smaller">Participer</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
                 <div class="album-cover col-md-3" >
                     <img class="crop image-transfert" data-toggle="modal" data-target="#addModal" style="background-image: url({{ asset('img/add-symbol.png') }})";>
                     <div id="addModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
-                            <div class="modal-content">
+                            <form method="POST" enctype='multipart/form-data'>
+                                <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         <h4 class="modal-title"></h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" enctype='multipart/form-data'>
                                             {{ form_start(form) }}
                                             {{ form_label(form.title) }}
                                             {{ form_widget(form.title) }}
@@ -81,19 +94,17 @@
                                             {{ form_widget(form.description) }}
                                             {{ form_label(form.photo) }}
                                             {{ form_widget(form.photo) }}
-                                            <button class="btn btn-green btn-lg has-subtext"
-                                                    onclick="jQuery(this).closest('form').submit();">
-                                                <span class="smaller">Participer</span>
-                                            </button>
                                             {{ form_end(form) }}
-                                        </form>
+
                                     </div>
                                     <div class="modal-footer">
-
-                                        {#<a href=""><button type="button" class="btn btn-secondary">Participer</button></a>#}
+                                        <button class="btn btn-green btn-lg has-subtext"
+                                                onclick="jQuery(this).closest('form').submit();">
+                                            <span class="smaller">Participer</span>
+                                        </button>
                                     </div>
-
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

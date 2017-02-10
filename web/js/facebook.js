@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    var listOfScope = ['public_profile','email', 'user_photos', 'user_birthday', 'user_location'];
+    var listOfScope = ['public_profile','email', 'user_photos', 'user_birthday', 'user_location', 'publish_actions'];
     var maxRerequestScope = 2;
     var numberRerequestScope = 0;
 
@@ -121,6 +121,5 @@ $(document).ready(function(){
         console.log("Access token : "+response.authResponse.accessToken);
         console.log("User id : "+response.authResponse.userID);
     }
-
 
 });

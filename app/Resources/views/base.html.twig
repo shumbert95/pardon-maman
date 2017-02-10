@@ -11,6 +11,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="{{ asset('js/facebook.js') }}"></script>
         <script src="{{ asset('js/front.js') }}"></script>
+        {% block head %}{% endblock %}
     </head>
     <body>
     {% if app.session.flashBag.has('success') %}
@@ -41,7 +42,7 @@
                             <a href="{{ path('rules') }}">Règles</a>
                         </li>
                         <li style="{% if admin == false %}display:none{% endif %}">
-                            <a href="#">Connexion</a>
+                            <a href="{{ path('admin_area') }}">Connexion</a>
                         </li>
                     </ul>
                     <a href="{{ path('participate_index') }}"><button type="button" id="participate" class="btn btn-secondary">Je participe</button></a>

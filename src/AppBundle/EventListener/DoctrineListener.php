@@ -43,7 +43,9 @@ class DoctrineListener {
             $entity->setDateAdd( new \DateTime(date('Y-m-d H:i:s')));
             if ($entity->getStatus() == 1) {
                 $onlineContest = $this->container->get('doctrine')->getRepository('AppBundle:Contest')->findOneByStatus(1);
-                $onlineContest->setStatus(false);
+                if ($onlineContest) {
+                    $onlineContest->setStatus(false);
+                }
             }
         }
     }

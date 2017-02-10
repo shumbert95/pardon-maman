@@ -7,6 +7,7 @@ use AppBundle\Entity\Participant;
 use AppBundle\Entity\Photo;
 use AppBundle\Entity\User;
 use AppBundle\Services\FacebookService;
+use Ivory\CKEditorBundle\Exception\Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -38,44 +39,40 @@ class ParticipateController extends Controller
             }
         }
 
-        $form = $this->createFormBuilder()
+        $formCreateAlbum = $this->createFormBuilder()
             ->add('title', 'text', ['required' => true, 'label' => 'Nom de l\'album'])
             ->add('description', 'text', ['required' => true, 'label' => 'Description de l\'album'])
             ->add('photo', FileType::class, ['required' => true, 'label' => 'Photo'])
             ->getForm();
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $album_details = array(
-                'message'=> $form->getViewData()['description'],
-                'name' => $form->getViewData()['title']
-            );
-            $myFile = $app->fileToUpload($form->getViewData()['photo']->getPathname());
+        $formCreateAlbum->handleRequest($request);
+
+        if ($formCreateAlbum->isValid()) {
+            $create_album = null;
+            if (isset( $formCreateAlbum->getViewData()['description']) && $formCreateAlbum->getViewData()['title']) {
+                $album_details = array(
+                    'message'=> $formCreateAlbum->getViewData()['description'],
+                    'name' => $formCreateAlbum->getViewData()['title']
+                );
+                $create_album = $app->post('/me/albums', $album_details);
+            } else {
+
+            }
+            $myFile = $app->fileToUpload($formCreateAlbum->getViewData()['photo']->getPathname());
             if (!$myFile) {
                 $session->getFlashBag()->add('error', 'Une erreur est survenue. Si le problème persiste, veuillez contacter un administrateur.');
                 return $this->render('default/participate.html.twig', [
                     'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                     'controller' => 'participate',
                     'admin' => $admin,
-                    'form' => $form->createView(),
+                    'form' => $formCreateAlbum->createView(),
                     'albums' => $albums
                 ]);
             }
-
-            $create_album = $app->post('/me/albums', $album_details);
             $photo_details = array(
               'source' => $myFile
             );
             if ($create_album){
                 $publish_photo = $app->post('/'.$create_album->getGraphAlbum()['id'].'/photos', $photo_details);
-            } else {
-                $session->getFlashBag()->add('error', 'Une erreur est survenue. Si le problème persiste, veuillez contacter un administrateur.');
-                return $this->render('default/participate.html.twig', [
-                    'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-                    'controller' => 'participate',
-                    'admin' => $admin,
-                    'form' => $form->createView(),
-                    'albums' => $albums
-                ]);
             }
 
             if ($publish_photo) {
@@ -156,7 +153,7 @@ class ParticipateController extends Controller
                     'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                     'controller' => 'participate',
                     'admin' => $admin,
-                    'form' => $form->createView(),
+                    'form' => $formCreateAlbum->createView(),
                     'albums' => $albums
                 ]);
             }
@@ -166,7 +163,7 @@ class ParticipateController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'participate',
             'admin' => $admin,
-            'form' => $form->createView(),
+            'form' => $formCreateAlbum->createView(),
             'albums' => $albums
         ]);
     }
@@ -184,13 +181,48 @@ class ParticipateController extends Controller
 
         $app = $fb->getApp();
         $app->setDefaultAccessToken($session->get('accessToken'));
-
-        $album = $app->get('/'.$albumId.'?fields=name,photos{images}')->getGraphAlbum();
+        $album = $form = null;
+        if ($request->get('uploadPhoto')) {
+            $form = $this->createFormBuilder()
+                ->add('photo', FileType::class, ['required' => true, 'label' => 'Photo'])
+                ->getForm();
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $albumId = $request->attributes->get('albumId');
+                $myFile = $app->fileToUpload($form->getViewData()['photo']->getPathname());
+                if (!$myFile) {
+                    $session->getFlashBag()->add('error', 'Une erreur est survenue. Si le problème persiste, veuillez contacter un administrateur.');
+                    return $this->render('default/participate_photos.html.twig', [
+                        'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                        'controller' => 'participate',
+                        'admin' => $admin,
+                        'form' => $form->createView(),
+                    ]);
+                }
+                $photo_details = array(
+                    'source' => $myFile
+                );
+                $publish_photo = $app->post('/'.$albumId.'/photos', $photo_details);
+                if (!$publish_photo) {
+                    $session->getFlashBag()->add('error', 'Une erreur est survenue. Si le problème persiste, veuillez contacter un administrateur.');
+                    return $this->render('default/participate_photos.html.twig', [
+                        'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                        'controller' => 'participate',
+                        'admin' => $admin,
+                        'form' => $form->createView(),
+                    ]);
+                }
+                return $this->redirectToRoute('participate_photo_facebook', array('albumId' => $albumId, 'photoId' =>$publish_photo->getGraphAlbum()['id'] ));
+            }
+        } else {
+            $album = $app->get('/'.$albumId.'?fields=name,photos{images}')->getGraphAlbum();
+        }
 
         return $this->render('default/participate_photos.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'participate',
             'admin' => $admin,
+            'form' => $form->createView(),
             'album' => $album
         ]);
     }

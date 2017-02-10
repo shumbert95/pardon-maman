@@ -184,8 +184,7 @@ class ParticipateController extends Controller
         $album = $form = null;
         if ($request->get('uploadPhoto')) {
             $form = $this->createFormBuilder()
-                ->add('photo', FileType::class, ['required' => true, 'label' => 'Photo'])
-                ->getForm();
+            ->add('photo', FileType::class, ['required' => true, 'label' => 'Photo'])->getForm();
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $albumId = $request->attributes->get('albumId');
@@ -222,7 +221,7 @@ class ParticipateController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'participate',
             'admin' => $admin,
-            'form' => $form->createView(),
+            'form' => $form ? $form->createView() : $form,
             'album' => $album
         ]);
     }

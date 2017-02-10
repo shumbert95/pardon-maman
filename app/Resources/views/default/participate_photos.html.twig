@@ -34,6 +34,7 @@
             </div>
         {% else %}
             <div class="row center-block form">
+                {% if form %}
                 {{ form_start(form) }}
                     {{ form_label(form.photo) }}
                     {{ form_widget(form.photo) }}
@@ -42,6 +43,7 @@
                     <span class="smaller">Participer</span>
                 </button>
                 {{ form_end(form) }}
+                    {% endif %}
             </div>
         {% endif %}
     </div>

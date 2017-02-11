@@ -9,6 +9,7 @@ $(document).ready(function(){
 
     // Load the SDK asynchronously
     (function(d, s, id) {
+        console.log('test');
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
@@ -93,7 +94,7 @@ $(document).ready(function(){
                 }).done(function (response) {
                     callback(values);
                     if (response == 'connection') {
-                        window.location = '/';
+                        window.location = '/app_dev.php';
                     }
                 });
             }

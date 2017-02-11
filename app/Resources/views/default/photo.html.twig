@@ -10,6 +10,12 @@
 {% endblock %}
 {% block body %}
         <img src="{{ photo.link }}" />
+
+        <script type="text/javascript">
+                $( document ).ready(function() {
+                        share('{{ url('photo_display', {'facebookId': photo.facebookId}) }}');
+                });
+        </script>
 {% endblock %}
 
 {% block stylesheets %}

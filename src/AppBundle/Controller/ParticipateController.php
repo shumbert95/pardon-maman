@@ -100,11 +100,14 @@ class ParticipateController extends Controller
 
                 $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['participant' => $participant->getId(), 'contest' => $contest->getId()]);
                 if ($contestParticipant) {
+                    $contestParticipants  = $doctrine->getRepository('AppBunle:ContestParticipant')->getTenRandomContestParticipants($contest);
                     $session->getFlashBag()->add('error', 'Votre participation n\'a pas été prise en compte. Vous avez déjà participé à ce concours');
+
                     return $this->render('default/home.html.twig', [
                         'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                         'controller' => 'participate',
                         'admin' => $admin,
+                        'contestParticipants' => $contestParticipants,
                         'contest' => $contest
                     ]);
                 } else {
@@ -140,13 +143,7 @@ class ParticipateController extends Controller
                 $session->getFlashBag()->add('success', 'Votre inscription a été prise en compte');
 
 
-                return $this->render('default/home.html.twig', [
-                    'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-                    'controller' => 'participate',
-                    'admin' => $admin,
-                    'contest' => $contest,
-                    'photo' => $photo
-                ]);
+                return $this->redirectToRoute('photo_display', array('facebookId' =>$photo->getFacebookId()));
             } else {
                 $session->getFlashBag()->add('error', 'Une erreur est survenue. Si le problème persiste, veuillez contacter un administrateur.');
                 return $this->render('default/participate.html.twig', [
@@ -259,10 +256,12 @@ class ParticipateController extends Controller
         $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['participant' => $participant->getId(), 'contest' => $contest->getId()]);
         if ($contestParticipant) {
             $session->getFlashBag()->add('error', 'Votre participation n\'a pas été prise en compte. Vous avez déjà participé à ce concours');
+            $contestParticipants  = $doctrine->getRepository('AppBundle:ContestParticipant')->getTenRandomContestParticipants($contest);
             return $this->render('default/home.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                 'controller' => 'participate',
                 'admin' => $admin,
+                'contestParticipants' => $contestParticipants,
                 'contest' => $contest
             ]);
         } else {
@@ -295,16 +294,19 @@ class ParticipateController extends Controller
 
         $doctrine->getEntityManager()->flush();
 
+        $album_details = array(
+            'message'=> 'test',
+            'link' => $this->generateUrl('photo_display', array('facebookId' =>$photo->getFacebookId()), 0),
+            'object_attachment' => $photo->getFacebookId()
+        );
+
+        $create_album = $app->post('/me/feed', $album_details);
+
         $session->getFlashBag()->add('success', 'Votre inscription a été prise en compte');
 
 
-        return $this->render('default/home.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            'controller' => 'participate',
-            'admin' => $admin,
-            'contest' => $contest,
-            'photo' => $photo
-        ]);
+        return $this->redirectToRoute('photo_display', array('facebookId' =>$photo->getFacebookId()));
+
     }
 
 }

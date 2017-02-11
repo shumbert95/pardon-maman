@@ -39,12 +39,6 @@ class VoteController extends Controller
         $contestParticipants = $contest->getContestParticipants();
 
 
-        return $this->render('default/gallery.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
-            'controller' => 'gallery',
-            'admin' => $admin,
-            'contest' => $contest,
-            'contestParticipants' => $contestParticipants
-        ]);
+        return $this->redirectToRoute('gallery');
     }
 }

@@ -33,7 +33,7 @@
                                 <img class="image-grande" src="{{ contestParticipant.photo.link }}">
                             </div>
                             <div class="modal-footer">
-                                <button type="button" onclick="share(this)" class="btn btn-secondary">Partager sur facebook</button>
+                                <button type="button" onclick="share(this)" class="btn btn-secondary">Partager</button>
                                 <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
                                     <button type="button" class="btn btn-secondary">Voter</button>
                                 </a>

@@ -75,7 +75,7 @@ class ContestParticipantRepository extends \Doctrine\ORM\EntityRepository
 
     public function getRandomContestParticipants($contest)
     {
-        return  $this->createQueryBuilder('q')
+        return  $this->createQueryBuilder('cp')
             ->addSelect('RAND() as HIDDEN rand')
             ->where('cp.contest = :contest')
             ->setParameter('contest', $contest)

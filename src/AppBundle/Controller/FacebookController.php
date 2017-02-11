@@ -29,7 +29,7 @@ class FacebookController extends Controller
                 $session->set('accessToken', $request->get('accessToken'));
             }
         }
-        $fb = new FacebookService('1504707966210156', '68f994bc31e69588727c593005f770c8');
+        $fb = $this->container->get('facebook_service');
         $app = $fb->getApp();
         if ($session->get('accessToken')) {
             $app->setDefaultAccessToken($session->get('accessToken'));
@@ -44,9 +44,12 @@ class FacebookController extends Controller
             $user->setFacebookId($data->getId());
             $user->setFirstname($data->getFirstName());
             $user->setLastname($data->getLastName());
-            $user->setCity($data->getLocation()->getLocation()->getCity());
-            $user->setCountry($data->getLocation()->getLocation()->getCountry());
-            $user->setBirthday($data->getBirthday());
+//            $user->setCity($data->getLocation()->getLocation()->getCity());
+            $user->setCity('Paris');
+//            $user->setCountry($data->getLocation()->getLocation()->getCountry());
+            $user->setCountry('France');
+//            $user->setBirthday($data->getBirthday());
+            $user->setBirthday(new \DateTime());
             $user->setEmail($data->getEmail());
             $em->persist($user);
             $em->flush();

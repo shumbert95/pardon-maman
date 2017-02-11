@@ -6,7 +6,7 @@ parameters:
 services:
      facebook_service:
           class: AppBundle\Services\FacebookService
-          arguments: ['%appId%', '%appSecret%']
+          arguments: ['%appId%', '%appSecret%', '@service_container']
      app.event_listener.doctrine_listener:
           class: AppBundle\EventListener\DoctrineListener
           arguments: [ %kernel.root_dir%/files, "@service_container" ]

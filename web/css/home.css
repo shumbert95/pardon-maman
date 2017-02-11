@@ -45,3 +45,9 @@ p{
 .modal-header, .modal-footer{
     border : 0px;
 }
+.crop
+{
+    width: 450px;
+    height: 450px;
+    background-size: cover;
+}

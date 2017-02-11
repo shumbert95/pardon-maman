@@ -45,46 +45,56 @@
         <h2 class="text-center">Quelques photos</h2>
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
-                <div id="carousel-id" class="carousel slide" data-ride="carousel">
+                <div id="myCarousel" class="carousel slide carousel-fit" data-ride="carousel">
+                    <!-- Indicators -->
                     <ol class="carousel-indicators">
-                        <li data-target="#carousel-id" data-slide-to="0" class=""></li>
-                        <li data-target="#carousel-id" data-slide-to="1" class=""></li>
-                        <li data-target="#carousel-id" data-slide-to="2" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
                     </ol>
+
+                    <!-- Wrapper for slides -->
                     <div class="carousel-inner">
                         {% for key,contestParticipant in contestParticipants %}
-                            <div class="item {% if key == 1 %}active{% endif %}">
-                                <img alt="" src="{{ contestParticipant.photo.link }}" data-toggle="modal" data-target="#img1">
-                                <div class="container">
-                                    <div class="carousel-caption">
-
-                                    </div>
+                            <div class="item {% if key == 0 %}active{% endif %}" data-toggle="modal" data-target="#myModal_{{ key }}" data-local="#myCarousel">
+                                <img data-src="holder.js/900x500/auto/#777:#555/text:legend_{{ key }}" src="{{ contestParticipant.photo.link }}" alt="legend_{{ key }}" class="crop">
+                                <div class="carousel-caption">
+                                    <h3>{{ contestParticipant.participant.user.firstName }} {{ contestParticipant.participant.user.lastName|truncate(1, false, '.') }}</h3>
+                                    <p><span class="nb-likes">{{ contestParticipant.votes }} <span class="glyphicon glyphicon-heart"></span></span><span> - {{ contestParticipant.dateInscription|date('d/m/Y') }}</span></p>
                                 </div>
                             </div>
                         {% endfor %}
                     </div>
-                    <!-- Modal -->
-                    <div class="modal fade" id="img1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Nom Prenom <br />
-                                        Publié le 10/12/2016</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <img src="../public/img/chaton.jpg" alt="lot à gagner">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">J'aime</button>
-                                    <button type="button" class="btn btn-default">Je partage</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="left carousel-control" href="#carousel-id" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
-                    <a class="right carousel-control" href="#carousel-id" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
                 </div>
+                {% for key,contestParticipant in contestParticipants %}
+                <div class="modal fade modal-fullscreen force-fullscreen" id="myModal_{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">Modal title</h4>
+                            </div>
+                            <div class="modal-body">
+                                <img src="{{ contestParticipant.photo.link }}" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Partager</button>
+                                <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
+                                    <button type="button" class="btn btn-primary">Voter</button>
+                                </a>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            {% endfor %}
             </div>
         </div>
         <!-- <img src="../public/img/chaton.jpg" alt="lot à gagner"> -->

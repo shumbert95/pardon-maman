@@ -295,12 +295,12 @@ class ParticipateController extends Controller
         $doctrine->getEntityManager()->flush();
 
         $album_details = array(
-            'message'=> 'test',
+            'message'=> 'Je viens de participer au concours de Pardon Maman. Allez voir ma photo !',
             'link' => $this->generateUrl('photo_display', array('facebookId' =>$photo->getFacebookId()), 0),
             'object_attachment' => $photo->getFacebookId()
         );
 
-        $create_album = $app->post('/me/feed', $album_details);
+        $post_message = $app->post('/me/feed', $album_details);
 
         $session->getFlashBag()->add('success', 'Votre inscription a été prise en compte');
 

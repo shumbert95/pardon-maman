@@ -10,13 +10,28 @@ function onChangeTypeParticipation(elt) {
     console.log(value);
 }
 
-function share(elt)
-{
+function share(elt) {
+//{
+//    FB.ui({
+//        method: 'share_open_graph',
+//        action_type: 'og.shares',
+//        action_properties: JSON.stringify({
+//            object : {
+//                'og:url': 'http://',
+//                'og:title': galleryItem.title,
+//                'og:description': galleryItem.description,
+//                'og:og:image:width': '2560',
+//                'og:image:height': '960',
+//                'og:image': BASE_URL + '/images/works/galleries' + galleryItem.image
+//            }
+//        })
+//    });
     FB.ui({
         method: 'share',
         href: $(elt).data('complete-url'),
-        hashtag: 'PardonMaman'
-    }, function(response){});
+    }, function(response){
+        console.log('test');
+    });
 }
 
 function confirmTest()

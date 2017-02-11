@@ -7,6 +7,9 @@ use AppBundle\Services\FacebookService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
 
 class DefaultController extends Controller
 {
@@ -149,4 +152,52 @@ class DefaultController extends Controller
             'contestParticipants' => $contestParticipants
         ]);
     }
+
+    /**
+     * @Route("/export/", name="contest_export")
+     */
+    public function exportContestParticipants(Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $doctrine = $this->getDoctrine();
+
+
+             $response = new StreamedResponse();
+
+            $repository = $doctrine->getRepository('AppBundle:ContestParticipant');
+
+            $response->setCallback(function() use ($repository) {
+        $handle = fopen('php://output', 'w+');
+                $doctrine = $this->getDoctrine();
+
+                $contest = $doctrine->getRepository('AppBundle:Contest')->findOneBy(['status' => 1]);
+
+        fputcsv($handle, ['Nom', 'Prénom', 'Email', 'Date de Naissance', 'Pays', 'Ville', 'Date première participation', 'Date de participation', 'Nbr de votes' ], ';');
+                $results = $repository->findBy(['contest' => $contest->getId()]);
+                foreach ($results as $cp) {
+                    fputcsv(
+                        $handle,
+                        [$cp->getParticipant()->getUser()->getLastname(),
+                        $cp->getParticipant()->getUser()->getFirstname(),
+                        $cp->getParticipant()->getUser()->getEmail(),
+                        $cp->getParticipant()->getUser()->getBirthday()->format('d/m/Y'),
+                        $cp->getParticipant()->getUser()->getCountry(),
+                        $cp->getParticipant()->getUser()->getCity(),
+                        $cp->getParticipant()->getDateAdd()->format('d/m/Y'),
+                        $cp->getDateInscription()->format('d/m/Y'),
+                        $cp->getVotes(),
+                        ],
+                        ';'
+                    );
+                }
+
+        fclose($handle);
+    });
+
+    $response->setStatusCode(200);
+    $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+    $response->headers->set('Content-Disposition','attachment; filename="export-users.csv"');
+
+    return $response;
+        }
 }

@@ -100,7 +100,7 @@ class ParticipateController extends Controller
 
                 $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['participant' => $participant->getId(), 'contest' => $contest->getId()]);
                 if ($contestParticipant) {
-                    $contestParticipants  = $doctrine->getRepository('AppBunle:ContestParticipant')->getTenRandomContestParticipants($contest);
+                    $contestParticipants  = $doctrine->getRepository('AppBundle:ContestParticipant')->getTenRandomContestParticipants($contest);
                     $session->getFlashBag()->add('error', 'Votre participation n\'a pas été prise en compte. Vous avez déjà participé à ce concours');
 
                     return $this->render('default/home.html.twig', [

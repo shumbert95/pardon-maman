@@ -27,10 +27,13 @@ class DefaultController extends Controller
 
         }
 
+        $contestParticipants = $doctrine->getRepository('AppBundle:ContestParticipant')->getTenRandomContestParticipants($contest);
+
         return $this->render('default/home.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'home',
             'contest' => $contest,
+            'contestParticipants' => $contestParticipants,
             'admin' => $admin
         ]);
     }
@@ -58,7 +61,7 @@ class DefaultController extends Controller
         } elseif ($type == 'voteDesc') {
             $contestParticipants = $doctrine->getRepository('AppBundle:ContestParticipant')->findContestParticipantsVoteDesc($contest);
         } else {
-            $contestParticipants = $doctrine->getRepository('AppBundle:ContestParticipant')->getRandomContestParticipants();
+            $contestParticipants = $doctrine->getRepository('AppBundle:ContestParticipant')->getRandomContestParticipants($contest);
         }
 
         return $this->render('default/gallery.html.twig', [

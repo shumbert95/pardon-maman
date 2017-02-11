@@ -73,12 +73,26 @@ class ContestParticipantRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getRandomContestParticipants()
+    public function getRandomContestParticipants($contest)
     {
         return  $this->createQueryBuilder('q')
             ->addSelect('RAND() as HIDDEN rand')
+            ->where('cp.contest = :contest')
+            ->setParameter('contest', $contest)
             ->addOrderBy('rand')
             ->getQuery()
             ->getResult();
+    }
+
+    public function getTenRandomContestParticipants($contest)
+    {
+        return  $this->createQueryBuilder('cp')
+        ->addSelect('RAND() as HIDDEN rand')
+        ->where('cp.contest = :contest')
+        ->setParameter('contest', $contest)
+        ->addOrderBy('rand')
+            ->setMaxResults(10)
+        ->getQuery()
+        ->getResult();
     }
 }

@@ -1,23 +1,64 @@
-#participate {
+body
+{
+    margin : 0 auto;
+}
+
+img
+{
+    width : 100%;
+}
+
+h1
+{
+    font-weight: 200;
+}
+
+h2
+{
+    margin-bottom: 10px;
+}
+
+h4
+{
+    color : #000000;
+    font-weight : 300;
+}
+
+p
+{
+    margin : 10px 30px 20px;
+}
+
+
+
+
+#participate 
+{
     float: right;
     margin-top: 7px;
     margin-right: 7px;
 }
-#navbar, .container-fluid {
+#navbar, .container-fluid 
+{
     padding: 0 !important;
 }
-.btn-secondary {
+.btn-secondary 
+{
     background-color: white;
 }
-.btn-border {
+.btn-border 
+{
     border: 1px solid #3D3D3D !important;
 }
-button {
+button 
+{
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
 }
-.navbar {
+
+.navbar 
+{
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;

@@ -1,6 +1,7 @@
 body
 {
     margin : 0 auto;
+    overflow-x : hidden;
 }
 
 img
@@ -30,8 +31,6 @@ p
 }
 
 
-
-
 #participate 
 {
     float: right;
@@ -50,11 +49,13 @@ p
 {
     border: 1px solid #3D3D3D !important;
 }
+
 button 
 {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
+    
 }
 
 .navbar 

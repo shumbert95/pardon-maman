@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container">
+<div id="header-gallery" class="container-fluid">
     <div class="row">
-        <h1 class="col-md-9 col-md-offset-1">{{ contest.name }} du {{ contest.dateStart|date('d/m/Y') }} au {{ contest.dateEnd|date('d/m/Y') }}</h1>
-        <div class="filters col-md-2">
+        <h1 class="text-center">{{ contest.name }} </h1>
+        <h2 class="text-center">du {{ contest.dateStart|date('d/m/Y') }} au {{ contest.dateEnd|date('d/m/Y') }} </h2>
+        <div class="filters col-sm-offset-1 col-sm-2">
             <div class="dropdown">
                 <button class="btn btn-secondary btn-border dropdown-toggle" type="button" data-toggle="dropdown">Filtrer par
                     <span class="caret"></span></button>
@@ -20,7 +21,7 @@
     </div>
     <ul class="list-photos">
         {% for key,contestParticipant in contestParticipants %}
-            <div class="album-cover col-md-3" >
+            <div class="album-cover col-sm-4">
                 <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ contestParticipant.photo.link }})";>
                 <div id="myModal_{{ key }}" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -41,19 +42,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="picture-info">
-                    <span class="nb-likes col-md-4">{{ contestParticipant.votes }} <span class="glyphicon glyphicon-heart"></span></span>
-                    <span class="picture-owner col-md-4">{{ contestParticipant.participant.user.firstname }} {{ contestParticipant.participant.user.lastname|truncate(1, false, '') }}.</span>
-                    <span class="date-add col-md-4">{{ contestParticipant.dateInscription|date('d/m/Y') }}</span>
+                <div class="picture-info center-block ">
+                    <p class="text-center">{{ contestParticipant.votes }} <span class="glyphicon glyphicon-heart"></span> {{ contestParticipant.participant.user.firstname }} {{ contestParticipant.participant.user.lastname|truncate(1, false, '') }}.<br/>
+                    <p class="text-center">{{ contestParticipant.dateInscription|date('d/m/Y') }}</p>
                 </div>
             </div>
         {% endfor %}
     </ul>
 </div>
-<button type="button" class="btn btn-secondary btn-border btn-see-more">Voir plus d'images</button>
+<button type="button" class="btn btn-secondary btn-border btn-see-more" id="see-more" >Voir plus d'images</button>
 {% endblock %}
 
 {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/transfert.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/transfert.css') }}">
     <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 {% endblock %}

@@ -41,8 +41,11 @@
                         <li {% if controller  == 'rules' %}class="active" {% endif %}>
                             <a href="{{ path('rules') }}">Règles</a>
                         </li>
+                        <li {% if controller  == 'contest_result' %}class="active" {% endif %}>
+                            <a href="{{ path('contest_result') }}">Résultats</a>
+                        </li>
                         <li style="{% if admin == false %}display:none{% endif %}">
-                            <a href="{{ path('sonata_admin_dashboard') }}">Connexion</a>
+                            <a href="{{ path('sonata_admin_dashboard') }}">Administration</a>
                         </li>
                     </ul>
                     <a href="{{ path('participate_index') }}"><button type="button" id="participate" class="btn btn-secondary">Je participe</button></a>

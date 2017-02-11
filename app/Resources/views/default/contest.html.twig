@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Résultats du concours {{ contest.name }} en direct :</h1>
+        {% set month = contest.dateEnd | date("F") %}
+        {% set day = contest.dateEnd | date("d") %}
+        {% set year = contest.dateEnd | date("Y") %}
+        <span></span>
+        <h2>Le concours se termine le : {{ '%s %s %s'|format(day, month | trans, year) }}</h2>
+        <div class="table">
+            <div class="table-head">
+                <div class="row">
+                    <div class="col-md-3">
+                        Nom participant
+                    </div>
+                    <div class="col-md-3">
+                        Date de participation
+                    </div>
+                    <div class="col-md-3">
+                        Nombre de votes
+                    </div>
+                    <div class="col-md-3">
+                        image
+                    </div>
+                </div>
+            </div>
+            <div class="table-body">
+                {% if contestParticipants %}
+                    {% for key,contestParticipant in contestParticipants %}
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span>{{ contestParticipant.participant.user.firstName }} {% if admin %}{{ contestParticipant.participant.user.lastName }}{% else %}{{ contestParticipant.participant.user.lastName | truncate(1, false, '.') }}{% endif %}</span>
+                            </div>
+                            <div class="col-md-3">
+                                {% set month = contestParticipant.dateInscription | date("F") %}
+                                {% set day = contestParticipant.dateInscription | date("d") %}
+                                {% set year = contestParticipant.dateInscription | date("Y") %}
+                                <span>{{ '%s %s %s'|format(day, month | trans, year) }}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span>{{ contestParticipant.votes }}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ contestParticipant.photo.link }})";>
+                                <div id="myModal_{{ key }}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Photo de {{ contestParticipant.participant.user.firstname }} {{ contestParticipant.participant.user.lastname|truncate(1, false, '') }}.</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img class="image-grande" src="{{ contestParticipant.photo.link }}">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" onclick="share({{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }})" data-dismiss="modal">Partager</button>
+                                                <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
+                                                    <button type="button" class="btn btn-primary">Voter</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="picture-info">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div>Il n'y a pas de participants</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/contest.css') }}">
+{% endblock %}

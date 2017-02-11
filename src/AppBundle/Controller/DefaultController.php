@@ -22,7 +22,6 @@ class DefaultController extends Controller
         $admin = $fb->checkIfUserAdmin($session);
 
         $contest = $doctrine->getRepository('AppBundle:Contest')->findOneByStatus(1);
-        $winner = $doctrine->getRepository('AppBundle:ContestParticipant')->getContestWinner($contest);
         if (!$contest) {
 
         }
@@ -113,17 +112,41 @@ class DefaultController extends Controller
         $admin = $fb->checkIfUserAdmin($session);
 
         $photo = $doctrine->getRepository('AppBundle:Photo')->findOneBy(['facebookId' => $facebookId]);
+
         $routeURL = $request->getRequestUri();
        if (!$photo) {
            return $this->render('default/notfound.html.twig');
        } else {
            return $this->render('default/photo.html.twig', [
                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-               'controller' => 'rules',
+               'controller' => null,
                'admin' => $admin,
                'url_partage' => $routeURL,
                'photo' => $photo,
            ]);
        }
+    }
+
+    /**
+     * @Route("/contest", name="contest_result")
+     */
+    public function resultAction(Request $request)
+    {
+        $session = $request->getSession();
+        $doctrine = $this->getDoctrine();
+
+        $fb = $this->container->get('facebook_service');
+        $admin = $fb->checkIfUserAdmin($session);
+
+        $contest = $doctrine->getRepository('AppBundle:Contest')->findOneByStatus(1);
+        $contestParticipants = $doctrine->getRepository('AppBundle:ContestParticipant')->findContestParticipantsVoteDesc($contest);
+
+        return $this->render('default/contest.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'controller' => 'contest_result',
+            'admin' => $admin,
+            'contest' => $contest,
+            'contestParticipants' => $contestParticipants
+        ]);
     }
 }

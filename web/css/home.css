@@ -7,14 +7,23 @@
     max-height: 220px;
 }
 
-#lot img, #bestPictures img
+#bestPictures img
 {
-    max-width: 220px;
-    max-height: 220px; 
+    max-width: 350px;
+    max-height: 200px; 
 }
 
-#bestPictures
+/*#carousel-photos
 {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 100px;
+}*/
+
+#myCarousel
+{
+    width: 500px;
+    height: 300px;
     margin-bottom: 100px;
 }
 #lot, #bestPictures

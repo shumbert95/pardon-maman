@@ -10,7 +10,7 @@ function onChangeTypeParticipation(elt) {
     console.log(value);
 }
 
-function share(elt) {
+function share(url) {
 //{
 //    FB.ui({
 //        method: 'share_open_graph',
@@ -28,7 +28,7 @@ function share(elt) {
 //    });
     FB.ui({
         method: 'share',
-        href: $(elt).data('complete-url'),
+        href: url,
     }, function(response){
         console.log('test');
     });

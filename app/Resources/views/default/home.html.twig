@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
-
+{% block head %}
+    {#<meta property="og:url" content="{{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }}"/>#}
+    <meta property="og:site_name" content="Pardon Maman" />
+    <meta property="og:title" content="Tattoueur depuis 10 ans" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url('homepage') }}"/>
+    <meta property="og:image" content=""/>
+    <meta property="og:locale" content="fr_FR"/>
+{% endblock %}
 {% block body %}
     <div id="pres" class="container-fluid">
         <h1 class="text-center">{{ contest.name }}</h1>
@@ -89,7 +97,7 @@
                                     <img src="{{ contestParticipant.photo.link }}" />
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" onclick="share({{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }})" data-dismiss="modal">Partager</button>
+                                    <button type="button" class="btn btn-default" onclick="share('{{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }}')" data-dismiss="modal">Partager</button>
                                     <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
                                         <button type="button" class="btn btn-primary">Voter</button>
                                     </a>

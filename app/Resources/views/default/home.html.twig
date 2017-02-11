@@ -52,8 +52,8 @@
                         <li data-target="#carousel-id" data-slide-to="2" class="active"></li>
                     </ol>
                     <div class="carousel-inner">
-                        {% for contestParticipant in contestParticipants %}
-                            <div class="item active">
+                        {% for key,contestParticipant in contestParticipants %}
+                            <div class="item {% if key == 1 %}active{% endif %}">
                                 <img alt="" src="{{ contestParticipant.photo.link }}" data-toggle="modal" data-target="#img1">
                                 <div class="container">
                                     <div class="carousel-caption">

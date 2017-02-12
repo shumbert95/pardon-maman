@@ -13,7 +13,9 @@
     <div id="pres" class="container-fluid">
         <h1 class="text-center">{{ contest.name }}</h1>
         <div class="row">
-             <div class="text-left description-concours"> {{ contest.description | raw  }} </div>
+             <div class="text-left paragraphe description-concours"> 
+                <p>{{ contest.description | raw  }} </p>
+                </div>
         </div>
     </div>
 
@@ -28,10 +30,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="text-left">
-                <p class="text-center prize-description">
-                    {{ contest.prize.description | raw }}
-                </p>
+            <div class="paragraphe text-left">
+                <p>{{ contest.prize.description | raw }}</p>
             </div>
         </div>
     </div>
@@ -39,14 +39,16 @@
     <div id="howToPlay" class="container-fluid">
         <h2 class="text-center">Comment jouer ?</h2>
         <div class="row">
-            <p class="text-left">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <div class="paragraphe text-left">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
         </div>
     </div>
 

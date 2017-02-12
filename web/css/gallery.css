@@ -1,7 +1,4 @@
-#header-gallery h1, #header-gallery h2
-{
-    margin-bottom: 0px;
-}
+
 
 .container 
 {
@@ -70,7 +67,8 @@ body
 {
     text-align: center;
 }
-#see-more
+.btn-page
 {
+    margin-top: 10px;
     margin-bottom: 10px;
 }

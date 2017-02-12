@@ -17,7 +17,7 @@
                 {% for key,album in albums %}
                     <div class="album-cover col-md-3" >
                     {% if album.cover_photo is defined %}
-                        <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ album.cover_photo.images[0].source }})";>
+                        <img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ album.cover_photo.images[0].source }})";>
                         <div id="myModal_{{ key }}" class="modal fade" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -49,7 +49,7 @@
                     {% if (album.name != 'Profile Pictures') and  (album.name != 'Cover Photos') %}
                     <div class="album-cover col-md-3" >
                     {% if album.cover_photo is defined %}
-                        <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_2_{{ key }}" style="background-image: url({{  album.cover_photo.images[0].source }})";>
+                        <img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_2_{{ key }}" style="background-image: url({{  album.cover_photo.images[0].source }})";>
                         <div id="myModal_2_{{ key }}" class="modal fade" role="dialog">
                             <div class="modal-dialog">
                                 <form method="POST" id="postPhoto" enctype='multipart/form-data'>
@@ -75,7 +75,7 @@
                     {% endif %}
                 {% endfor %}
                 <div class="album-cover col-md-3" >
-                    <img class="crop image-transfert" data-toggle="modal" data-target="#addModal" style="background-image: url({{ asset('img/add-symbol.png') }})";>
+                    <img class="crop-photo-concours image-transfert" data-toggle="modal" data-target="#addModal" style="background-image: url({{ asset('img/add-symbol.png') }})";>
                     <div id="addModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                             <form method="POST" enctype='multipart/form-data'  {% if already_participated %}onsubmit="return confirm('Vous avez déjà participé à ce concours. Si vous continuez, votre ancienne participation sera écrasée. Etes vous sur ?')"{% endif %}>
@@ -108,8 +108,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/transfert.css') }}">
 {% endblock %}

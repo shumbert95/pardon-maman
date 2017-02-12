@@ -13,7 +13,7 @@
                 {% for key,photo in album.photos %}
                     <div class="album-cover col-md-3" >
                         <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ photo.images[0].source }})";>
-                        <div id="myModal_{{ key }}" class="modal fade" role="dialog">
+                        < id="myModal_{{ key }}" class="modal fade" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -24,27 +24,29 @@
                                         <img class="image-grande" src="{{ photo.images[0].source }}">
                                     </div>
                                     <div class="modal-footer">
-                                        <a onclick="return confirmTest()" href="{{ path('participate_photo_facebook', { 'albumId': album.id, 'photoId': photo.id }) }}"><button type="button" class="btn btn-secondary" id="selectionner" data-album="{{ album.id }}" data-photo="{{ photo.id }}">Sélectionner</button></a>
+                                        <a {% if already_participated %}onclick="return confirm('Vous avez déjà participé à ce concours. Si vous continuez, votre ancienne participation sera écrasée. Etes vous sur ?')"{% endif %} href="{{ path('participate_photo_facebook', { 'albumId': album.id, 'photoId': photo.id }) }}"><button type="button" class="btn btn-secondary" id="selectionner" data-album="{{ album.id }}" data-photo="{{ photo.id }}">Sélectionner</button></a>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <div class="row center-block form">
+        <form method="POST" enctype='multipart/form-data' {% if already_participated %}onsubmit="return confirm('Vous avez déjà participé à ce concours. Si vous continuez, votre ancienne participation sera écrasée. Etes vous sur ?')" {% endif %}>
+        <div class="row center-block form">
                 {% if form %}
                 {{ form_start(form) }}
                     {{ form_label(form.photo) }}
                     {{ form_widget(form.photo) }}
                 <button class="btn btn-green btn-lg has-subtext"
-                        onclick="jQuery(this).closest('form').submit();">
+                            onclick="jQuery(this).closest('form').submit();">
                     <span class="smaller">Participer</span>
                 </button>
                 {{ form_end(form) }}
                     {% endif %}
             </div>
+            </form>
         {% endif %}
     </div>
 {% endblock %}

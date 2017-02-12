@@ -78,7 +78,7 @@
                     <img class="crop image-transfert" data-toggle="modal" data-target="#addModal" style="background-image: url({{ asset('img/add-symbol.png') }})";>
                     <div id="addModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
-                            <form method="POST" enctype='multipart/form-data'>
+                            <form method="POST" enctype='multipart/form-data'  {% if already_participated %}onsubmit="return confirm('Vous avez déjà participé à ce concours. Si vous continuez, votre ancienne participation sera écrasée. Etes vous sur ?')"{% endif %}>
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-green btn-lg has-subtext"
-                                                onclick="jQuery(this).closest('form').submit();">
+                                                    onclick="jQuery(this).closest('form').submit();">
                                             <span class="smaller">Participer</span>
                                         </button>
                                     </div>

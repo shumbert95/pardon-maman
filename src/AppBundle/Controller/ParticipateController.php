@@ -29,6 +29,13 @@ class ParticipateController extends Controller
         $fb = $this->container->get('facebook_service');
         $admin = $fb->checkIfUserAdmin($session);
 
+        $contest = $doctrine->getRepository('AppBundle:Contest')->findOneByStatus(1);
+        $user = $doctrine
+            ->getRepository('AppBundle:User')->find($session->get('user')->getId());
+        $participant = $doctrine->getRepository('AppBundle:Participant')->findOneByUser($user);
+        $already_participated = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['contest' => $contest, 'participant' => $participant]);
+
+
         $app = $fb->getApp();
         $app->setDefaultAccessToken($session->get('accessToken'));
 
@@ -63,6 +70,7 @@ class ParticipateController extends Controller
                 return $this->render('default/participate.html.twig', [
                     'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                     'controller' => 'participate',
+                    'already_participated' => $already_participated,
                     'admin' => $admin,
                     'form' => $formCreateAlbum->createView(),
                     'albums' => $albums
@@ -99,18 +107,7 @@ class ParticipateController extends Controller
                 }
 
                 $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['participant' => $participant->getId(), 'contest' => $contest->getId()]);
-                if ($contestParticipant) {
-                    $contestParticipants  = $doctrine->getRepository('AppBundle:ContestParticipant')->getTenRandomContestParticipants($contest);
-                    $session->getFlashBag()->add('error', 'Votre participation n\'a pas été prise en compte. Vous avez déjà participé à ce concours');
-
-                    return $this->render('default/home.html.twig', [
-                        'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-                        'controller' => 'participate',
-                        'admin' => $admin,
-                        'contestParticipants' => $contestParticipants,
-                        'contest' => $contest
-                    ]);
-                } else {
+                if (!$contestParticipant) {
                     $contestParticipant = new ContestParticipant();
                     $contestParticipant->setContest($contest);
                     $contestParticipant->setParticipant($participant);
@@ -157,6 +154,7 @@ class ParticipateController extends Controller
                 return $this->render('default/participate.html.twig', [
                     'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                     'controller' => 'participate',
+                    'already_participated' => $already_participated,
                     'admin' => $admin,
                     'form' => $formCreateAlbum->createView(),
                     'albums' => $albums
@@ -167,6 +165,7 @@ class ParticipateController extends Controller
         return $this->render('default/participate.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'participate',
+            'already_participated' => $already_participated,
             'admin' => $admin,
             'form' => $formCreateAlbum->createView(),
             'albums' => $albums
@@ -184,8 +183,12 @@ class ParticipateController extends Controller
         $fb = $this->container->get('facebook_service');
         $admin = $fb->checkIfUserAdmin($session);
 
+        $user = $doctrine->getRepository('AppBundle:User')->find($session->get('user')->getId());
         $app = $fb->getApp();
         $app->setDefaultAccessToken($session->get('accessToken'));
+        $contest = $doctrine->getRepository('AppBundle:Contest')->findOneBy(['status' => 1]);
+        $participant = $doctrine->getRepository('AppBundle:Participant')->findOneBy(['user' => $user]);
+        $already_participated = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['contest' => $contest, 'participant' => $participant]);
         $album = $form = null;
         if ($request->get('uploadPhoto')) {
             $form = $this->createFormBuilder()
@@ -199,6 +202,7 @@ class ParticipateController extends Controller
                     return $this->render('default/participate_photos.html.twig', [
                         'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                         'controller' => 'participate',
+                        'already_participated' => $already_participated,
                         'admin' => $admin,
                         'form' => $form->createView(),
                     ]);
@@ -213,6 +217,7 @@ class ParticipateController extends Controller
                         'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                         'controller' => 'participate',
                         'admin' => $admin,
+                        'already_participated' => $already_participated,
                         'form' => $form->createView(),
                     ]);
                 }
@@ -222,11 +227,15 @@ class ParticipateController extends Controller
             $album = $app->get('/'.$albumId.'?fields=name,photos{images}')->getGraphAlbum();
         }
 
+        $participant = $doctrine->getRepository('AppBundle:Participant')->findOneBy(['user' => $user]);
+        $already_participated = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['participant' => $participant->getId(), 'contest' => $contest->getId()]);
+
         return $this->render('default/participate_photos.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'participate',
             'admin' => $admin,
             'form' => $form ? $form->createView() : $form,
+            'already_participated' => $already_participated,
             'album' => $album
         ]);
     }
@@ -262,17 +271,7 @@ class ParticipateController extends Controller
         }
 
         $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['participant' => $participant->getId(), 'contest' => $contest->getId()]);
-        if ($contestParticipant) {
-            $session->getFlashBag()->add('error', 'Votre participation n\'a pas été prise en compte. Vous avez déjà participé à ce concours');
-            $contestParticipants  = $doctrine->getRepository('AppBundle:ContestParticipant')->getTenRandomContestParticipants($contest);
-            return $this->render('default/home.html.twig', [
-                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-                'controller' => 'participate',
-                'admin' => $admin,
-                'contestParticipants' => $contestParticipants,
-                'contest' => $contest
-            ]);
-        } else {
+        if (!$contestParticipant) {
             $contestParticipant = new ContestParticipant();
             $contestParticipant->setContest($contest);
             $contestParticipant->setParticipant($participant);
@@ -310,7 +309,7 @@ class ParticipateController extends Controller
 
         $post_message = $app->post('/me/feed', $album_details);
 
-        $session->getFlashBag()->add('success', 'Votre inscription a été prise en compte');
+//        $session->getFlashBag()->add('success', 'Votre inscription a été prise en compte');
 
 
         return $this->redirectToRoute('photo_display', array('facebookId' =>$photo->getFacebookId()));

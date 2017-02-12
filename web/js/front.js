@@ -60,9 +60,10 @@ function confirmTest()
 
 function seeMore()
 {
-    var test  = $('.gallery-row:visible');
     var listHiddenRows = $('.gallery-row:hidden');
     if (listHiddenRows.length > 0) {
         listHiddenRows.first().show();
+    } else if( listHiddenRows.legth == 1) {
+        $('#seeMore').hide();
     }
 }

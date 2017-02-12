@@ -17,6 +17,7 @@ class PageAdmin extends AbstractAdmin
     {
         $formMapper->add('code', 'text', ['label' => 'Code', 'required' => true]);
         $formMapper->add('title', 'text', ['label' => 'Titre', 'required' => true]);
+        $formMapper->add('position', 'integer', ['label' => 'Position dans le footer', 'required' => false]);
         $formMapper->add('content', CKEditorType::class, ['label' => 'Contenu', 'required' => true]);
         $formMapper->add('status', null, ['label' => 'En ligne']);
 //        $formMapper->add('participants', 'entity', ['class' => Participant::class, 'label' => 'Participants', 'disabled' => true]);
@@ -24,7 +25,9 @@ class PageAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $datagridMapper->add('name');
+        $datagridMapper->add('code')
+                        ->add('title')
+                        ->add('position');
     }
 
     public function configureListFields(ListMapper $list)
@@ -32,7 +35,17 @@ class PageAdmin extends AbstractAdmin
 
        $list->addIdentifier('code', null, ['label' => 'Code'])
         ->add('title', null, ['label' => 'Titre'])
-        ->add('content', null, ['label' => 'Contenu'])
+        ->add('position', null, ['label' => 'Position'])
         ->add('status', null, ['label' => 'En ligne']);
+    }
+
+    public function preUpdate($object)
+    {
+        $object->setDateUpdate(new \DateTime(date('Y-m-d H:i:s')));
+    }
+
+    public function prePersist($object)
+    {
+        $object->setDateAdd( new \DateTime(date('Y-m-d H:i:s')));
     }
 }

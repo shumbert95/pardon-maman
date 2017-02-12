@@ -33,6 +33,13 @@ class Page
     private $status;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $position;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="text")
@@ -70,6 +77,23 @@ class Page
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @return PAge
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        return $this;
     }
 
     public function getCode()

@@ -35,6 +35,8 @@ class ParticipateController extends Controller
         $participant = $doctrine->getRepository('AppBundle:Participant')->findOneByUser($user);
         $already_participated = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['contest' => $contest, 'participant' => $participant]);
 
+        $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();
+
 
         $app = $fb->getApp();
         $app->setDefaultAccessToken($session->get('accessToken'));
@@ -72,6 +74,7 @@ class ParticipateController extends Controller
                     'controller' => 'participate',
                     'already_participated' => $already_participated,
                     'admin' => $admin,
+                    'pages' => $pages,
                     'form' => $formCreateAlbum->createView(),
                     'albums' => $albums
                 ]);
@@ -156,6 +159,7 @@ class ParticipateController extends Controller
                     'controller' => 'participate',
                     'already_participated' => $already_participated,
                     'admin' => $admin,
+                    'pages' => $pages,
                     'form' => $formCreateAlbum->createView(),
                     'albums' => $albums
                 ]);
@@ -167,6 +171,7 @@ class ParticipateController extends Controller
             'controller' => 'participate',
             'already_participated' => $already_participated,
             'admin' => $admin,
+            'pages' => $pages,
             'form' => $formCreateAlbum->createView(),
             'albums' => $albums
         ]);
@@ -182,6 +187,7 @@ class ParticipateController extends Controller
 
         $fb = $this->container->get('facebook_service');
         $admin = $fb->checkIfUserAdmin($session);
+        $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();
 
         $user = $doctrine->getRepository('AppBundle:User')->find($session->get('user')->getId());
         $app = $fb->getApp();
@@ -204,6 +210,7 @@ class ParticipateController extends Controller
                         'controller' => 'participate',
                         'already_participated' => $already_participated,
                         'admin' => $admin,
+                        'pages' => $pages,
                         'form' => $form->createView(),
                     ]);
                 }
@@ -217,6 +224,7 @@ class ParticipateController extends Controller
                         'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                         'controller' => 'participate',
                         'admin' => $admin,
+                        'pages' => $pages,
                         'already_participated' => $already_participated,
                         'form' => $form->createView(),
                     ]);
@@ -234,6 +242,7 @@ class ParticipateController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'participate',
             'admin' => $admin,
+            'pages' => $pages,
             'form' => $form ? $form->createView() : $form,
             'already_participated' => $already_participated,
             'album' => $album

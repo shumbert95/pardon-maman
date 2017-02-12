@@ -20,6 +20,8 @@ class DefaultController extends Controller
     {
         $session = $request->getSession();
         $doctrine = $this->getDoctrine();
+        $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();
+
 
         $fb = $this->container->get('facebook_service');
         $admin = $fb->checkIfUserAdmin($session);
@@ -35,6 +37,7 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'home',
             'contest' => $contest,
+            'pages' => $pages,
             'contestParticipants' => $contestParticipants,
             'admin' => $admin
         ]);
@@ -65,12 +68,14 @@ class DefaultController extends Controller
         } else {
             $contestParticipants = $doctrine->getRepository('AppBundle:ContestParticipant')->getRandomContestParticipants($contest);
         }
+        $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();
 
         return $this->render('default/gallery.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             'controller' => 'gallery',
             'admin' => $admin,
             'contest' => $contest,
+            'pages' => $pages,
             'contestParticipants' => $contestParticipants,
             'type' => $type
         ]);
@@ -93,12 +98,14 @@ class DefaultController extends Controller
         }
 
         $rules = $contest->getRules();
+        $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();
 
         return $this->render('default/rules.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'rules',
             'admin' => $admin,
             'contest' => $contest,
+            'pages' => $pages,
             'rules' => $rules,
         ]);
     }
@@ -117,7 +124,9 @@ class DefaultController extends Controller
         $photo = $doctrine->getRepository('AppBundle:Photo')->findOneBy(['facebookId' => $facebookId]);
 
         $routeURL = $request->getRequestUri();
-       if (!$photo) {
+        $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();
+
+        if (!$photo) {
            return $this->render('default/notfound.html.twig');
        } else {
            return $this->render('default/photo.html.twig', [
@@ -126,6 +135,7 @@ class DefaultController extends Controller
                'admin' => $admin,
                'url_partage' => $routeURL,
                'photo' => $photo,
+               'pages' => $pages,
            ]);
        }
     }
@@ -143,18 +153,20 @@ class DefaultController extends Controller
 
         $contest = $doctrine->getRepository('AppBundle:Contest')->findOneByStatus(1);
         $contestParticipants = $doctrine->getRepository('AppBundle:ContestParticipant')->findContestParticipantsVoteDesc($contest);
+        $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();
 
         return $this->render('default/contest.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'contest_result',
             'admin' => $admin,
             'contest' => $contest,
+            'pages' => $pages,
             'contestParticipants' => $contestParticipants
         ]);
     }
 
     /**
-     * @Route("/export/", name="contest_export")
+     * @Route("/export", name="contest_export")
      */
     public function exportContestParticipants(Request $request)
     {
@@ -191,13 +203,36 @@ class DefaultController extends Controller
                     );
                 }
 
-        fclose($handle);
-    });
+            fclose($handle);
+        });
 
-    $response->setStatusCode(200);
-    $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
-    $response->headers->set('Content-Disposition','attachment; filename="export-users.csv"');
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Disposition','attachment; filename="export-users.csv"');
 
-    return $response;
-        }
+        return $response;
+    }
+
+    /**
+     * @Route("/page/{code}", name="page")
+     */
+    public function pageAction(Request $request, $code)
+    {
+        $session = $request->getSession();
+        $doctrine = $this->getDoctrine();
+
+        $fb = $this->container->get('facebook_service');
+        $admin = $fb->checkIfUserAdmin($session);
+
+        $page = $doctrine->getRepository('AppBundle:Page')->findOneBy(['code' => $code]);
+        $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();
+
+        return $this->render('default/page.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'controller' => 'home',
+            'page' => $page,
+            'pages' => $pages,
+            'admin' => $admin
+        ]);
+    }
 }

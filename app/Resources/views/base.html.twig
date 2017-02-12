@@ -54,6 +54,13 @@
             </div>
         </nav>
         {% block body %}{% endblock %}
+    <div id="footer">
+        <ul>
+            {% for page in pages %}
+                <li><a href="{{ path('page', {'code': page.code}) }}"> {{ page.title }}</a></li>
+            {% endfor%}
+        </ul>
+    </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

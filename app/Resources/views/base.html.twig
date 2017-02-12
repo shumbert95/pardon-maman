@@ -55,11 +55,13 @@
         </nav>
         {% block body %}{% endblock %}
     <div id="footer">
+        {% if pages|length > 0 %}
         <ul>
             {% for page in pages %}
                 <li><a href="{{ path('page', {'code': page.code}) }}"> {{ page.title }}</a></li>
             {% endfor%}
         </ul>
+        {% endif %}
     </div>
         {% block javascripts %}{% endblock %}
     </body>

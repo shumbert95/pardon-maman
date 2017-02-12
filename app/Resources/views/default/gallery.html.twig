@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div id="header-gallery" class="container-fluid">
+<div class="container-fluid header-page">
     <div class="row">
         <h1 class="text-center">{{ contest.name }} </h1>
         <h2 class="text-center">du {{ contest.dateStart|date('d/m/Y') }} au {{ contest.dateEnd|date('d/m/Y') }} </h2>
@@ -50,7 +50,7 @@
         {% endfor %}
     </ul>
 </div>
-<button type="button" class="btn btn-secondary btn-border btn-see-more" id="see-more" >Voir plus d'images</button>
+<button type="button" class="btn btn-secondary btn-border btn-see-more btn-page">Voir plus d'images</button>
 {% endblock %}
 
 {% block stylesheets %}

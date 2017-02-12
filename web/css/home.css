@@ -20,6 +20,11 @@
     margin-bottom: 100px;
 }*/
 
+.paragraphe p
+{
+    margin : 10px 30px 20px;
+}
+
 #myCarousel
 {
     width: 500px;

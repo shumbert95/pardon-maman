@@ -27,9 +27,13 @@ h4
 
 p
 {
-    margin : 10px 30px 20px;
+   
 }
 
+.header-page h1, .header-page h2
+{
+    margin-bottom: 0px;
+}
 
 #participate 
 {
@@ -63,4 +67,10 @@ button
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
+}
+
+.btn-page
+{
+    margin-top: 10px;
+    margin-bottom: 15px;
 }

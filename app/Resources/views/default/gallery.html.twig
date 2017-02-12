@@ -51,7 +51,7 @@
                 </div>
             </div>
             {% set last = 0 %}
-            {% if (key = 2) or (key = last+3) %}
+            {% if (key = 2) or (key = (last+3)) %}
                 {% set last = key %}
                 </div>
             {% endif %}

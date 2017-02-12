@@ -25,8 +25,8 @@
                 <div class="row gallery-row" {% if key != 0 %}style="display:none;"{% endif %}>
             {% endif %}
             <div class="album-cover col-sm-4">
-                <img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ contestParticipant.photo.link }})";>
-                <div id="myModal_{{ key }}" class="modal fade" role="dialog">
+                <img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_{{ contestParticipant.photo.id }}" style="background-image: url({{ contestParticipant.photo.link }})";>
+                <div id="myModal_{{ contestParticipant.photo.id }}" class="modal fade" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">

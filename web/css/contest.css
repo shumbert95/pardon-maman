@@ -3,6 +3,8 @@
     width: 60px;
     height: 60px;
     background-size: cover;
+    cursor: pointer;
+    border: solid 1px black;
 }
 
 .modal-body img

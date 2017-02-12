@@ -44,6 +44,11 @@ class ContestCommand extends ContainerAwareCommand
                     'access_token' => $app->getApp()->getAccessToken()->getValue()
                 );
 //                $post_message = $app->post('/'.$contestParticipant->getParticipant()->getUser()->getFacebookId().'/feed', $album_details);
+                try{
+
+                }catch (\Exception $e) {
+                    var_dump($e);
+                }
                 $post_message = $app->post('/117131608805366/feed', $album_details);
 
             }

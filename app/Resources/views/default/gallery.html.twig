@@ -50,7 +50,8 @@
                     <p class="text-center">{{ contestParticipant.dateInscription|date('d/m/Y') }}</p>
                 </div>
             </div>
-            {% if key is divisibleby(2) and key != 0 %}
+            {% if  key = 2 or key = last+3 %}
+                {% set last = key %}
                 </div>
             {% endif %}
         {% endfor %}

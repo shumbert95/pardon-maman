@@ -21,6 +21,9 @@
     </div>
     <ul class="list-photos">
         {% for key,contestParticipant in contestParticipants %}
+            {% if key is divisibleby(3) %}
+                <div class="row gallery-row" {% if key != 0 %}style="display:none;"{% endif %}>
+            {% endif %}
             <div class="album-cover col-sm-4">
                 <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ contestParticipant.photo.link }})";>
                 <div id="myModal_{{ key }}" class="modal fade" role="dialog">
@@ -47,10 +50,13 @@
                     <p class="text-center">{{ contestParticipant.dateInscription|date('d/m/Y') }}</p>
                 </div>
             </div>
+            {% if key is divisibleby(2) and key != 0 %}
+                </div>
+            {% endif %}
         {% endfor %}
     </ul>
 </div>
-<button type="button" class="btn btn-secondary btn-border btn-see-more btn-page">Voir plus d'images</button>
+<button type="button" onclick="seeMore()" class="btn btn-secondary btn-border btn-see-more btn-page">Voir plus d'images</button>
 {% endblock %}
 
 {% block stylesheets %}

@@ -7,54 +7,13 @@ function onChangeTypeParticipation(elt) {
         $('#album-list').show();
         $('#import-photo').hide();
     }
-    console.log(value);
 }
 
 function share(url) {
-//{
-//    FB.ui({
-//        method: 'share_open_graph',
-//        action_type: 'og.shares',
-//        action_properties: JSON.stringify({
-//            object : {
-//                'og:url': 'http://',
-//                'og:title': galleryItem.title,
-//                'og:description': galleryItem.description,
-//                'og:og:image:width': '2560',
-//                'og:image:height': '960',
-//                'og:image': BASE_URL + '/images/works/galleries' + galleryItem.image
-//            }
-//        })
-//    });
     FB.ui({
         method: 'share',
         href: url,
     }, function(response){
-        console.log('test');
-    });
-}
-
-function confirmTest()
-{
-    $.confirm({
-        title: 'Confirm!',
-        content: 'Simple confirm!',
-        buttons: {
-            confirm: function () {
-                $.alert('Confirmed!');
-            },
-            cancel: function () {
-                $.alert('Canceled!');
-            },
-            somethingElse: {
-                text: 'Something else',
-                btnClass: 'btn-primary',
-                keys: ['enter', 'shift'],
-                action: function(){
-                    $.alert('Something else?');
-                }
-            }
-        }
     });
 }
 

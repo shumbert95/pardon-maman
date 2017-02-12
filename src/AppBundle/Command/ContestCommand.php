@@ -35,14 +35,13 @@ class ContestCommand extends ContainerAwareCommand
             $contest->setWinner($winner);
             $em->flush();
             $photo = $winner->getPhoto();
-
         $fbApp = new FacebookApp($this->getContainer()->getParameter('appId'), $this->getContainer()->getParameter('appSecret'));
             foreach ($contest->getContestParticipants() as $contestParticipant) {
                 $album_details = array(
                     'message'=> 'Le concours auquel j\'ai participé est terminé, voici la photo du gagnant !',
                     'link' => $this->getContainer()->get('router')->generate('photo_display', array('facebookId' =>$photo->getFacebookId()), 0),
                     'object_attachment' => $photo->getFacebookId(),
-                    'access_token' => $app->getApp()->getAccessToken()
+                    'access_token' => $app->getApp()->getAccessToken()->getValue()
                 );
 //                $post_message = $app->post('/'.$contestParticipant->getParticipant()->getUser()->getFacebookId().'/feed', $album_details);
                 $post_message = $app->post('/117131608805366/feed', $album_details);

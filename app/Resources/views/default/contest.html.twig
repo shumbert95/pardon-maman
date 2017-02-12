@@ -46,7 +46,7 @@
                                 <span>{{ contestParticipant.votes }}</span>
                             </div>
                             <div class="col-sm-2 col-sm-offset-1">
-                                <img class="crop image-transfert center-block" data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ contestParticipant.photo.link }})";>
+                                <img class="crop-resultats image-transfert center-block" data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ contestParticipant.photo.link }})";>
                                 <div id="myModal_{{ key }}" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -66,8 +66,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="picture-info">
-                                </div>
                             </div>
                         </div>
                     {% endfor %}
@@ -84,6 +82,3 @@
     </div>
 {% endblock %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/contest.css') }}">
-{% endblock %}

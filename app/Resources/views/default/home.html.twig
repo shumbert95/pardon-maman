@@ -74,7 +74,7 @@
                                     <h3>{{ contestParticipant.participant.user.firstName }} {{ contestParticipant.participant.user.lastName|truncate(1, false, '.') }}</h3>
                                     <p><span class="nb-likes">{{ contestParticipant.votes }} <span class="glyphicon glyphicon-heart"></span></span><span> - {{ contestParticipant.dateInscription|date('d/m/Y') }}</span></p>
                                 </div>
-                                <img data-src="holder.js/900x500/auto/#777:#555/text:legend_{{ key }}" src="{{ contestParticipant.photo.link }}" alt="legend_{{ key }}" class="crop center-block" />
+                                <img data-src="holder.js/900x500/auto/#777:#555/text:legend_{{ key }}" src="{{ contestParticipant.photo.link }}" alt="legend_{{ key }}" class="crop-carousel center-block" />
                                 
                             </div>
                         {% endfor %}                    
@@ -117,8 +117,4 @@
         <!-- <img src="../public/img/chaton.jpg" alt="lot à gagner"> -->
 
     </div>
-{% endblock %}
-
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 {% endblock %}

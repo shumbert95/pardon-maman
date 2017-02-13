@@ -2,12 +2,12 @@
 
 {% block body %}
 <div class="container-fluid header-page">
-    <div class="row">
+    <div class="row center-block">
         <h1 class="text-center">{{ contest.name }} </h1>
         <h2 class="text-center">du {{ contest.dateStart|date('d/m/Y') }} au {{ contest.dateEnd|date('d/m/Y') }} </h2>
-        <div class="filters col-sm-offset-1 col-sm-2">
+        <div class="filters">
             <div class="dropdown">
-                <button class="btn btn-secondary btn-border dropdown-toggle" type="button" data-toggle="dropdown">Filtrer par
+                <button class="btn btn-secondary btn-border dropdown-toggle center-block" type="button" data-toggle="dropdown">Filtrer par
                     <span class="caret"></span></button>
                 <br>
                 <ul class="dropdown-menu">
@@ -22,7 +22,7 @@
     <ul class="list-photos">
         {% for key,contestParticipant in contestParticipants %}
             {% if key is divisibleby(3) %}
-                <div class="row gallery-row" {% if key > 8 %}style="display:none;"{% endif %}>
+                <div class="row gallery-row center-block" {% if key > 8 %}style="display:none;"{% endif %}>
             {% endif %}
             <div class="album-cover col-sm-4">
                 <img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_{{ contestParticipant.photo.id }}" style="background-image: url({{ contestParticipant.photo.link }})";>

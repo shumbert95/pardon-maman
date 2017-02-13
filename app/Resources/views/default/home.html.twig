@@ -2,7 +2,7 @@
 {% block head %}
     {#<meta property="og:url" content="{{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }}"/>#}
     <meta property="og:site_name" content="Pardon Maman" />
-    <meta property="og:title" content="Pardon Maman - Tattoueur depuis 10 ans" />
+    <meta property="og:title" content="Pardon Maman - Tatoueur depuis 10 ans" />
     <meta property="og:description" content="Vous avez des talents en dessin ? Venez participer à notre concours de tatouage et tentez de remporter le votre entièrement gratuit !" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ url('homepage') }}"/>
@@ -10,49 +10,46 @@
     <meta property="og:locale" content="fr_FR"/>
 {% endblock %}
 {% block body %}
-    <div id="pres" class="container-fluid">
-        <h1 class="text-center">{{ contest.name }}</h1>
-        <div class="row">
-             <div class="text-left paragraphe description-concours"> 
-                <p>{{ contest.description | raw  }} </p>
+    <div class="container-fluid">
+        <div id="pres">
+            <h1 class="text-center">{{ contest.name }}</h1>
+            <div class="row center-block">
+                 <div class="text-center paragraphe description-concours col-sm-offset-1 col-sm-10"> 
+                    {{ contest.description | raw  }} 
+                    </div>
+            </div>
+        </div>
+
+        <div id="lot">
+            <h2 class="text-center">Un lot à gagner !</h2>
+            <div class="row center-block">
+                <img class="center-block" src="{{ asset('img/chaton.jpg') }}" alt="lot à gagner">
+            </div>
+            <div class="row center-block">
+                <div class="text-center">
+                    <h3 class="prize-name">{{ contest.prize.name }}</h3>
                 </div>
-        </div>
-    </div>
-
-    <div id="lot" class="container-fluid">
-        <h2 class="text-center">Un lot à gagner !</h2>
-        <div class="row">
-            <img class="center-block" src="{{ asset('img/chaton.jpg') }}" alt="lot à gagner">
-        </div>
-        <div class="row">
-            <div class="text-center">
-                <h3 class="prize-name">{{ contest.prize.name }}</h3>
+            </div>
+            <div class="row center-block">
+                <div class="paragraphe text-center col-sm-offset-1 col-sm-10">
+                    {{ contest.prize.description | raw }}
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="paragraphe text-left">
-                <p>{{ contest.prize.description | raw }}</p>
+
+        <div id="howToPlay">
+            <h2 class="text-center">Comment jouer ?</h2>
+            <div class="row center-block">
+                <div class="paragraphe text-center col-sm-offset-1 col-sm-10">
+                    <p>
+                        Pour jouer et tenter de gagner le prix en jeu, il vous suffit tout simplement de cliquer sur le bouton "Participer" se trouvant en haut à droite de l'application.
+                    </p>
+                    
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="howToPlay" class="container-fluid">
-        <h2 class="text-center">Comment jouer ?</h2>
-        <div class="row">
-            <div class="paragraphe text-left">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div id="bestPictures" class="container-fluid">
+        <div id="bestPictures">
         <h2 class="text-center">Quelques photos</h2>
         <div class="row">
             <div class="col-md-4 col-md-offset-4">

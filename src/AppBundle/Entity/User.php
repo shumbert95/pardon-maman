@@ -62,6 +62,21 @@ class User
     private $status;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_add", type="datetime")
+     */
+
+    private $dateAdd;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_update", type="datetime")
+     */
+    private $dateUpdate;
+
+    /**
      * Get id
      *
      * @return int
@@ -236,6 +251,50 @@ class User
     {
         $this->status = $status;
         return $this;
+    }
+
+    /**
+     * Set dateAdd
+     *
+     *
+     * @return Contest
+     */
+    public function setDateAdd($dateAdd)
+    {
+        $this->dateAdd = $dateAdd;
+        return $this;
+    }
+
+    /**
+     * Get dateAdd
+     *
+     */
+
+    public function getDateAdd()
+    {
+        return $this->dateAdd;
+    }
+
+    /**
+     * Set dateUpdate
+     *
+     *
+     * @return Contest
+     */
+    public function setDateUpdate($dateUpdate)
+    {
+        $this->dateUpdate = $dateUpdate;
+        return $this;
+    }
+
+    /**
+     * Get dateUpdate
+     *
+     */
+
+    public function getDateUpdate()
+    {
+        return $this->dateUpdate;
     }
 
     /**

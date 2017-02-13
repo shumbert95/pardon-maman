@@ -32,7 +32,7 @@ class DefaultController extends Controller
             if (!empty($objData['app_data'])) {
                 $data = explode(',', $objData['app_data']);
                 if ($data[0] == 'photo') {
-                    $this->redirectToRoute('display_photo', array('facebookId' => $data[1]));
+                    return $this->redirectToRoute('display_photo', array('facebookId' => $data[1]));
                 }
             }
 

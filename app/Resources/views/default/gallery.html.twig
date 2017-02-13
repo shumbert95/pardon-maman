@@ -22,7 +22,7 @@
     <ul class="list-photos">
         {% for key,contestParticipant in contestParticipants %}
             {% if key is divisibleby(3) %}
-                <div class="row gallery-row" {% if key != 0 %}style="display:none;"{% endif %}>
+                <div class="row gallery-row" {% if key > 8 %}style="display:none;"{% endif %}>
             {% endif %}
             <div class="album-cover col-sm-4">
                 <img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_{{ contestParticipant.photo.id }}" style="background-image: url({{ contestParticipant.photo.link }})";>

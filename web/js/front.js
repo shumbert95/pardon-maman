@@ -21,7 +21,7 @@ function seeMore()
 {
     var listHiddenRows = $('.gallery-row:hidden');
     if (listHiddenRows.length > 0) {
-        listHiddenRows.first().show();
+        listHiddenRows.slice(0, 3).show();
          if( listHiddenRows.length == 1) {
             $('#seeMore').hide();
         }

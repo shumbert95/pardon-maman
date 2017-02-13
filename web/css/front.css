@@ -14,7 +14,7 @@ img
 
 h1
 {
-   font-size: 4.5em;
+   font-size: 4em;
 }
 
 h2
@@ -44,8 +44,8 @@ h1,h2,h3,h4
 
 .header-page h1, .header-page h2
 {
-    font-size: 3.2em;
-    margin-bottom: 0px;
+    font-size: 2.8em;
+    margin-bottom: 10px;
 }
 
 #participate 
@@ -118,11 +118,12 @@ button
 .paragraphe p
 {
     margin : 10px 30px 20px;
+    font-size: 1.2em;
+    line-height: 200%;
 }
 
 .paragraphe li
 {
-    text-align: left;
     list-style-type: disc;
     padding:0px;
 }
@@ -297,6 +298,19 @@ body
     display:none;
 }
 
+.nom-album
+{
+    text-align: center;
+    padding: 5px 10px 50px 10px;*/
+    min-height: 30px;
+    width: 200px;
+}
+
+.nom-album p
+{
+    margin : 0px 0px 0px 0px;
+}
+
 
 /* Contest */
 
@@ -339,6 +353,8 @@ body
 .tableau-resultats
 {
     margin-top: 5px;
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
 }
 
 .tableau-resultats img

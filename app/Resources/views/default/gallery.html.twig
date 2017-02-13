@@ -58,5 +58,7 @@
         {% endfor %}
     </ul>
 </div>
-<button type="button" onclick="seeMore()" id="seeMore" class="btn btn-secondary btn-border btn-see-more btn-page">Voir plus d'images</button>
+    {% if (contestParticipant|length > 8) %}
+        <button type="button" onclick="seeMore()" id="seeMore" class="btn btn-secondary btn-border btn-see-more btn-page">Voir plus d'images</button>
+    {% endif %}
 {% endblock %}

@@ -27,3 +27,13 @@ function seeMore()
         }
     }
 }
+
+$(document).ready(function() 
+{
+
+    if(window.location.href.indexOf('#myModal_2') != -1) 
+    {
+        $('#myModal_2').modal('show');
+    }
+
+});

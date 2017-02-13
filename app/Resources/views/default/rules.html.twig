@@ -1,20 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <h1>Règles en places pour le concours : {{ contest.name }}</h1>
-        <div id="pres" class="container-fluid">
+    <div class="container-fluid">
+        <div class="row header-page">
+            <h1>Règles en places pour le concours</h1>
+        </div>
+        <div class="row">
             {% for rule in rules %}
-                <h2 class="">{{ rule.name }}</h2>
-                <div class="row">
+                <h2>{{ rule.name }}</h2>
+                <div class="col-sm-offset-1 col-sm-10 row paragraphe">
                     {{ rule.description | raw  }}
                 </div>
             {% endfor %}
         </div>
-
     </div>
-{% endblock %}
-
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
 {% endblock %}

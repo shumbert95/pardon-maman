@@ -2,7 +2,7 @@
 {% block head %}
     {#<meta property="og:url" content="{{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }}"/>#}
     <meta property="og:site_name" content="Pardon Maman" />
-    <meta property="og:title" content="Pardon Maman - Tattoueur depuis 10 ans" />
+    <meta property="og:title" content="Pardon Maman - Tatoueur depuis 10 ans" />
     <meta property="og:description" content="Vous avez des talents en dessin ? Venez participer à notre concours de tatouage et tentez de remporter le votre entièrement gratuit !" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ url('homepage') }}"/>
@@ -10,111 +10,108 @@
     <meta property="og:locale" content="fr_FR"/>
 {% endblock %}
 {% block body %}
-    <div id="pres" class="container-fluid">
-        <h1 class="text-center">{{ contest.name }}</h1>
-        <div class="row">
-             <div class="text-left paragraphe description-concours"> 
-                <p>{{ contest.description | raw  }} </p>
-                </div>
-        </div>
-    </div>
-
-    <div id="lot" class="container-fluid">
-        <h2 class="text-center">Un lot à gagner !</h2>
-        <div class="row">
-            <img class="center-block" src="{{ asset('img/chaton.jpg') }}" alt="lot à gagner">
-        </div>
-        <div class="row">
-            <div class="text-center">
-                <h3 class="prize-name">{{ contest.prize.name }}</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="paragraphe text-left">
-                <p>{{ contest.prize.description | raw }}</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="howToPlay" class="container-fluid">
-        <h2 class="text-center">Comment jouer ?</h2>
-        <div class="row">
-            <div class="paragraphe text-left">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div id="bestPictures" class="container-fluid">
-        <h2 class="text-center">Quelques photos</h2>
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div id="myCarousel" class="carousel slide carousel-fit center-block" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                    </ol>
-
-                    <!-- Wrapper for slides -->
-                    {% if contestParticipants %}
-                    <div id="carousel-photos" class="carousel-inner">
-                    
-                        {% for key,contestParticipant in contestParticipants %}
-                            <div class="item {% if key == 0 %}active{% endif %}" data-toggle="modal" data-target="#myModal_{{ key }}" data-local="#myCarousel">
-                                <div class="row carousel-caption">
-                                    <p class="nom-participant">{{ contestParticipant.participant.user.firstName }} {{ contestParticipant.participant.user.lastName|truncate(1, false, '.') }}<br />
-                                    <span class="nb-likes">{{ contestParticipant.votes }} <span class="glyphicon glyphicon-heart"></span></span><span> - {{ contestParticipant.dateInscription|date('d/m/Y') }}</span></p>
-                                </div>
-                                <img data-src="holder.js/900x500/auto/#777:#555/text:legend_{{ key }}" src="{{ contestParticipant.photo.link }}" alt="legend_{{ key }}" class="crop-carousel center-block" />
-                                
-                            </div>
-                        {% endfor %}                    
+    <div class="container-fluid">
+        <div id="pres">
+            <h1 class="text-center">{{ contest.name }}</h1>
+            <div class="row center-block">
+                 <div class="text-center paragraphe description-concours col-sm-offset-1 col-sm-10"> 
+                    {{ contest.description | raw  }} 
                     </div>
-                    {% endif %}
-
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </a>
-                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </a>
-                </div>
-                {% if contestParticipants %}
-                    {% for key,contestParticipant in contestParticipants %}
-                    <div class="modal fade modal-fullscreen force-fullscreen" id="myModal_{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Modal title</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <img src="{{ contestParticipant.photo.link }}" />
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" onclick="share('{{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }}')" data-dismiss="modal">Partager</button>
-                                    <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
-                                        <button type="button" class="btn btn-primary">Voter</button>
-                                    </a>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
-                {% endfor %}
-            {% endif %}
             </div>
         </div>
-        <!-- <img src="../public/img/chaton.jpg" alt="lot à gagner"> -->
 
+        <div id="lot">
+            <h2 class="text-center">Un lot à gagner !</h2>
+            <div class="row center-block">
+                <img class="center-block" src="{{ asset('img/chaton.jpg') }}" alt="lot à gagner">
+            </div>
+            <div class="row center-block">
+                <div class="text-center">
+                    <h3 class="prize-name">{{ contest.prize.name }}</h3>
+                </div>
+            </div>
+            <div class="row center-block">
+                <div class="paragraphe text-center col-sm-offset-1 col-sm-10">
+                    {{ contest.prize.description | raw }}
+                </div>
+            </div>
+        </div>
+
+        <div id="howToPlay">
+            <h2 class="text-center">Comment jouer ?</h2>
+            <div class="row center-block">
+                <div class="paragraphe text-center col-sm-offset-1 col-sm-10">
+                    <p>
+                        Pour jouer et tenter de gagner le prix en jeu, il vous suffit tout simplement de cliquer sur le bouton "Participer" se trouvant en haut à droite de l'application.
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div id="bestPictures">
+            <h2 class="text-center">Quelques photos</h2>
+            <div class="row center-block">
+                <div class="col-md-4 col-md-offset-4">
+                    <div id="myCarousel" class="carousel slide carousel-fit center-block" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#myCarousel" data-slide-to="1"></li>
+                            <li data-target="#myCarousel" data-slide-to="2"></li>
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        {% if contestParticipants %}
+                        <div id="carousel-photos" class="carousel-inner">
+                        
+                            {% for key,contestParticipant in contestParticipants %}
+                                <div class="item {% if key == 0 %}active{% endif %}" data-toggle="modal" data-target="#myModal_{{ key }}" data-local="#myCarousel">
+                                    <div class="row carousel-caption">
+                                        <p class="nom-participant">{{ contestParticipant.participant.user.firstName }} {{ contestParticipant.participant.user.lastName|truncate(1, false, '.') }}<br />
+                                        <span class="nb-likes">{{ contestParticipant.votes }} <span class="glyphicon glyphicon-heart"></span></span><span> - {{ contestParticipant.dateInscription|date('d/m/Y') }}</span></p>
+                                    </div>
+                                    <img data-src="holder.js/900x500/auto/#777:#555/text:legend_{{ key }}" src="{{ contestParticipant.photo.link }}" alt="legend_{{ key }}" class="crop-carousel center-block" />
+                                    
+                                </div>
+                            {% endfor %}                    
+                        </div>
+                        {% endif %}
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                    {% if contestParticipants %}
+                        {% for key,contestParticipant in contestParticipants %}
+                        <div class="modal fade modal-fullscreen force-fullscreen" id="myModal_{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">Modal title</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img src="{{ contestParticipant.photo.link }}" />
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" onclick="share('{{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }}')" data-dismiss="modal">Partager</button>
+                                        <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
+                                            <button type="button" class="btn btn-primary">Voter</button>
+                                        </a>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+            <!-- <img src="../public/img/chaton.jpg" alt="lot à gagner"> -->
+        </div>
     </div>
 {% endblock %}

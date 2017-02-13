@@ -8,7 +8,7 @@
         <div class="row center-block" id ="album-list">
             {% for key,photo in album.photos %}
                 <div class="album-cover col-md-3" >
-                    <img class="crop image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ photo.picture }})";>
+                    <img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ photo.picture }})";>
                     <div id="myModal_{{ key }}" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -29,8 +29,4 @@
             {% endfor %}
         </div>
     </div>
-{% endblock %}
-
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/transfert.css') }}">
 {% endblock %}

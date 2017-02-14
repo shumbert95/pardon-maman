@@ -50,68 +50,68 @@
         </div>
 
         <div id="bestPictures">
-        <h2 class="text-center">Quelques photos</h2>
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div id="myCarousel" class="carousel slide carousel-fit center-block" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                    </ol>
+            <h2 class="text-center">Quelques photos</h2>
+            <div class="row center-block">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <div id="myCarousel" class="carousel slide carousel-fit center-block" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#myCarousel" data-slide-to="1"></li>
+                            <li data-target="#myCarousel" data-slide-to="2"></li>
+                        </ol>
 
-                    <!-- Wrapper for slides -->
-                    {% if contestParticipants %}
-                    <div id="carousel-photos" class="carousel-inner">
-                    
-                        {% for key,contestParticipant in contestParticipants %}
-                            <div class="item {% if key == 0 %}active{% endif %}" data-toggle="modal" data-target="#myModal_{{ key }}" data-local="#myCarousel">
-                                <div class="row carousel-caption">
-                                    <p class="nom-participant">{{ contestParticipant.participant.user.firstName }} {{ contestParticipant.participant.user.lastName|truncate(1, false, '.') }}<br />
-                                    <span class="nb-likes">{{ contestParticipant.votes }} <span class="glyphicon glyphicon-heart"></span></span><span> - {{ contestParticipant.dateInscription|date('d/m/Y') }}</span></p>
+                        <!-- Wrapper for slides -->
+                        {% if contestParticipants %}
+                        <div id="carousel-photos" class="carousel-inner">
+                        
+                            {% for key,contestParticipant in contestParticipants %}
+                                <div class="item {% if key == 0 %}active{% endif %}" data-toggle="modal" data-target="#myModal_{{ key }}" data-local="#myCarousel">
+                                    <div class="row carousel-caption">
+                                        <p class="nom-participant">{{ contestParticipant.participant.user.firstName }} {{ contestParticipant.participant.user.lastName|truncate(1, false, '.') }}<br />
+                                        <span class="nb-likes">{{ contestParticipant.votes }} <span class="glyphicon glyphicon-heart"></span></span><span> - {{ contestParticipant.dateInscription|date('d/m/Y') }}</span></p>
+                                    </div>
+                                    <img data-src="holder.js/900x500/auto/#777:#555/text:legend_{{ key }}" src="{{ contestParticipant.photo.link }}" alt="legend_{{ key }}" class="crop-carousel center-block" />
+                                    
                                 </div>
-                                <img data-src="holder.js/900x500/auto/#777:#555/text:legend_{{ key }}" src="{{ contestParticipant.photo.link }}" alt="legend_{{ key }}" class="crop-carousel center-block" />
-                                
-                            </div>
-                        {% endfor %}                    
+                            {% endfor %}                    
+                        </div>
+                        {% endif %}
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
                     </div>
-                    {% endif %}
-
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </a>
-                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </a>
+                    {% if contestParticipants %}
+                        {% for key,contestParticipant in contestParticipants %}
+                        <div class="modal fade modal-fullscreen force-fullscreen" id="myModal_{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">Modal title</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img src="{{ contestParticipant.photo.link }}" />
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" onclick="share('{{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }}')" data-dismiss="modal">Partager</button>
+                                        <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
+                                            <button type="button" class="btn btn-primary">Voter</button>
+                                        </a>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                    {% endfor %}
+                {% endif %}
                 </div>
-                {% if contestParticipants %}
-                    {% for key,contestParticipant in contestParticipants %}
-                    <div class="modal fade modal-fullscreen force-fullscreen" id="myModal_{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Modal title</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <img src="{{ contestParticipant.photo.link }}" />
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" onclick="share('{{ contestParticipant.photo.getShareUrl }}')" data-dismiss="modal">Partager</button>
-                                    <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
-                                        <button type="button" class="btn btn-primary">Voter</button>
-                                    </a>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
-                {% endfor %}
-            {% endif %}
             </div>
+            <!-- <img src="../public/img/chaton.jpg" alt="lot à gagner"> -->
         </div>
-        <!-- <img src="../public/img/chaton.jpg" alt="lot à gagner"> -->
-
     </div>
 {% endblock %}

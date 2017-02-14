@@ -23,9 +23,7 @@
                         <div class="row gallery-row center-block">
                     {% endif %} 
                     <div class="album-cover col-sm-4" >
-                        <a href="{{ path('participate_album', { 'albumId': album.id }) }}">
-                            <img class="crop-photo-concours image-transfert " style="background-image: url({{ album.cover_photo.images[0].source }})";>
-                        </a>
+                        <a href="{{ path('participate_album', { 'albumId': album.id }) }}"><img class="crop-photo-concours image-transfert " style="background-image: url({{ album.cover_photo.images[0].source }})";></a>
                         <div class="nom-album center-block">
                             <p class="text-center"> {{ album.name }} </p>
                         </div>
@@ -48,9 +46,7 @@
                                 <div class="row gallery-row center-block">
                             {% endif %}
                             <div class="album-cover col-sm-4" >
-                                <a href="{{ path('participate_album', { 'albumId': album.id, 'uploadPhoto': true }) }}">
-                                    <img class="crop-photo-concours image-transfert " style="background-image: url({{  album.cover_photo.images[0].source }})";>
-                                </a>
+                                <a href="{{ path('participate_album', { 'albumId': album.id, 'uploadPhoto': true }) }}"><img class="crop-photo-concours image-transfert " style="background-image: url({{  album.cover_photo.images[0].source }})";></a>
                                 <div class="nom-album center-block">
                                     <p class="text-center"> {{ album.name }} </p>
                                 </div>

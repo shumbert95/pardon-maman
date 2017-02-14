@@ -7,7 +7,6 @@
         </div>
         <div class="row center-block">
             <a href="{{ path('participate_index') }}"><button>Retour</button></a>
-        </div>
         {% if album|length > 0 %}
             <div class="row center-block" id="album-list">
                 {% for key,photo in album.photos %}

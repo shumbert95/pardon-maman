@@ -52,8 +52,42 @@
                             <a href="{{ path('sonata_admin_dashboard') }}">Administration</a>
                         </li>
                     </ul>
-                    <button type="button" id="participate" onclick="share('https://www.facebook.com/Tatouage-239023369859103?sk=app_1504707966210156')" class="btn btn-secondary">Partager</button>
+                    <button type="button" id="participate" class="btn btn-secondary" data-toggle="modal" data-target="#sharePageModal">Partager</button>
                     <a href="{{ path('participate_index') }}"><button type="button" id="participate" class="btn btn-secondary">Je participe</button></a>
+                    <div id="sharePageModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    Voulez vous vraiment l'application sur votre mur Facebook ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-green btn-lg has-subtext" onclick="share('https://www.facebook.com/Tatouage-239023369859103?sk=app_1504707966210156','https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/552345_420640654657180_1666928990_n.jpg?oh=486b25546134b49b7f2d8d6893571faa&oe=59391C23');jQuery('#sharePageModal').modal('toggle');" data-toggle="modal" data-target="#confirmPageModal">Partager</button>
+                                    <button type="button" class="btn btn-green btn-lg has-subtext" data-toggle="modal" data-target="#sharePageModal">Annuler</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div id="confirmPageModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    La photo a bien été partagée sur votre mur.
+                                </div>
+                                <div class="modal-footer">
+                                        <button type="button" class="btn btn-green btn-lg has-subtext" onclick="jQuery('#confirmPageModal').modal('toggle');">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>

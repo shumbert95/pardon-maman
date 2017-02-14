@@ -1,4 +1,8 @@
 /* Général */
+html,body
+{
+    height: 100%
+}
 body
 {
     margin : 0 auto;
@@ -19,7 +23,7 @@ img
 
 h1
 {
-   line-height : 0.8;
+   line-height : 1.3;
    font-size : 3em;
 }
 
@@ -112,6 +116,18 @@ button
 {
     margin-top: 10px;
     margin-bottom: 15px;
+}
+
+.footer
+{
+    padding-top:10px;
+    padding-bottom: 10px;
+    background-color: black;
+} 
+
+.liens-footer, .liens-footer a
+{
+    color: white;
 }
 
 /* Home */

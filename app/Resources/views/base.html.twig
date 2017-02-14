@@ -92,13 +92,13 @@
             </div>
         </nav>
         {% block body %}{% endblock %}
-    <div id="footer">
+    <div class="row center-block footer">
         {% if pages|length > 0 %}
-        <ul>
-            {% for page in pages %}
-                <li><a href="{{ path('page', {'code': page.code}) }}"> {{ page.title }}</a></li>
-            {% endfor%}
-        </ul>
+        <div class="liens-footer">
+            {% for key,page in pages %}
+                 {% if key > 0 %} - {% endif %}<a href="{{ path('page', {'code': page.code}) }}"> {{ page.title }}</a>
+            {% endfor %}
+            </div>
         {% endif %}
     </div>
         {% block javascripts %}{% endblock %}

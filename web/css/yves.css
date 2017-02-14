@@ -1,3 +1,42 @@
-.paragraphe p{
-	text-align: center;
+h1, h2{
+	text-transform: uppercase;
+}
+
+.header-page ul{
+	padding-left : 0px;
+}
+
+.gallery-row img:hover{
+	
+}
+
+a{
+	color : #3D3D3D;
+}
+
+.btn{
+	background-color: #E87740;
+	color : #ffffff;
+}
+
+#lot img{
+	border : solid 1px #E87740;
+}
+
+.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover{
+	color : #E87740;
+}
+
+.navbar-inverse .navbar-nav>.active>a, 
+.navbar-inverse .navbar-nav>.active>a:focus,
+.navbar-inverse .navbar-nav>.active>a:hover{
+	background-color : #E87740;
+}
+
+.picture-info{
+	border-top : 0px;
+}
+
+h1{
+	line-height : 0.8;
 }

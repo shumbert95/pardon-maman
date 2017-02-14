@@ -202,5 +202,10 @@ class Photo
     {
         $this->date_update = new \DateTime();
     }
+
+    public function getShareUrl()
+    {
+        return 'https://www.facebook.com/Tatouage-239023369859103?sk=app_1504707966210156&app_data=photo,'.$this->facebookId;
+    }
 }
 

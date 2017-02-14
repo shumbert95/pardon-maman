@@ -4,18 +4,12 @@
         <meta property="og:site_name" content="Pardon Maman" />
         <meta property="og:title" content="Tattoueur depuis 10 ans" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="{{ url('photo_display', {'facebookId': photo.facebookId}) }}"/>
+        <meta property="og:url" content="{{ photo.getShareUrl }}"/>
         <meta property="og:image" content="{{ photo.link }}"/>
         <meta property="og:locale" content="fr_FR"/>
 {% endblock %}
 {% block body %}
         <img src="{{ photo.link }}" />
-
-        <script type="text/javascript">
-                $( document ).ready(function() {
-                        share('{{ url('photo_display', {'facebookId': photo.facebookId}) }}');
-                });
-        </script>
 {% endblock %}
 
 {% block stylesheets %}

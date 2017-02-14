@@ -18,6 +18,27 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        /** HANDLE FB PAGE SIGNED REQUEST  */
+
+
+        if (isset($_REQUEST['signed_request'])) {
+            $signed_request = $_REQUEST['signed_request'];
+
+            if (isset($signed_request)) {
+                $data_signed_request = explode('.', $signed_request);
+                $jsonData = base64_decode($data_signed_request['1']);
+                $objData = json_decode($jsonData, true);
+            }
+            if (!empty($objData['app_data'])) {
+                $data = explode(',', $objData['app_data']);
+                if ($data[0] == 'photo') {
+                    $this->redirectToRoute('display_photo', array('facebookId' => $data[1]));
+                }
+            }
+
+        }
+        /** END FB HANDLE */
+
         $session = $request->getSession();
         $doctrine = $this->getDoctrine();
         $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();

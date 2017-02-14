@@ -98,10 +98,10 @@
                                         <h4 class="modal-title">Modal title</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <img src="{{ contestParticipant.photo.link }}" />
+                                        <a href="{{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }}"><img src="{{ contestParticipant.photo.link }}" /></a>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" onclick="share('{{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }}')" data-dismiss="modal">Partager</button>
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#shareModal_{{ key }}">Partager sur Facebook</button>
                                         <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
                                             <button type="button" class="btn btn-primary">Voter</button>
                                         </a>
@@ -109,6 +109,40 @@
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
                         </div><!-- /.modal -->
+                        <div id="shareModal_{{ key }}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Voulez vous vraiment partager cette photo sur votre mur Facebook ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-green btn-lg has-subtext" onclick="share('{{ contestParticipant.photo.getShareUrl }}','{{ contestParticipant.photo.link }}');jQuery('#shareModal_{{ key }}').modal('toggle');" data-toggle="modal" data-target="#confirmModal_{{ key }}">Partager sur Facebook</button>
+                                        <button type="button" class="btn btn-green btn-lg has-subtext" data-toggle="modal" data-target="#shareModal_{{ key }}">Annuler</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="confirmModal_{{ key }}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        La photo a bien été partagée sur votre mur.
+                                    </div>
+                                    <div class="modal-footer">
+                                            <button type="button" class="btn btn-green btn-lg has-subtext" onclick="jQuery('#confirmModal_{{ key }}').modal('toggle');">Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     {% endfor %}
                 {% endif %}
                 </div>

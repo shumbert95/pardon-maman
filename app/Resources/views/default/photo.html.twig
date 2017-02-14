@@ -21,7 +21,7 @@
         	</div>
     	</div>
     	<div class="row center-block">
-			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#shareModal">Partager</button>
+			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#shareModal">Partager sur Facebook</button>
 			{% if contestParticipant %}
 				<a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
 					<button type="button" class="btn btn-primary" >Voter</button>
@@ -37,7 +37,7 @@
                                     Voulez vous vraiment partager cette photo sur votre mur Facebook ?
                                 </div>
                                 <div class="modal-footer">
-									<button type="button" class="btn btn-green btn-lg has-subtext" onclick="share('{{ photo.getShareUrl }}','{{ photo.link}}');jQuery('#shareModal').modal('toggle');" data-toggle="modal" data-target="#confirmModal">Partager</button>
+									<button type="button" class="btn btn-green btn-lg has-subtext" onclick="share('{{ photo.getShareUrl }}','{{ photo.link}}');jQuery('#shareModal').modal('toggle');" data-toggle="modal" data-target="#confirmModal">Partager sur Facebook</button>
 									<button type="button" class="btn btn-green btn-lg has-subtext" data-toggle="modal" data-target="#shareModal">Annuler</button>
                                 </div>
                             </div>

@@ -14,13 +14,15 @@ img
 
 h1
 {
-   font-size: 4em;
+   /*font-size: 4em;*/
+   font-size : 3em;
 }
 
 h2
 {
     margin-bottom: 10px;
-    font-size: 3em;
+    /*font-size: 3em;*/
+    font-size : 2.3em;
 }
 
 h3
@@ -37,9 +39,9 @@ h4
 
 h1,h2,h3,h4
 {
-    margin-left: 20px;
+    /*margin-left: 20px;*/
     margin-bottom: 20px;
-    font-family: 'PT Sans', sans-serif;
+    /*font-family: 'PT Sans', sans-serif;*/
 }
 
 .header-page h1, .header-page h2
@@ -227,7 +229,7 @@ body
 
 .dropdown 
 {
-    margin-right: 10px;
+    /*margin-right: 10px;*/
 }
 
 .filters 
@@ -372,4 +374,7 @@ body
 {
     margin-bottom: 0px;
 }
+
+/*************************************************************/
+
 

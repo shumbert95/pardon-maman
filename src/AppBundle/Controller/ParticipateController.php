@@ -188,7 +188,7 @@ class ParticipateController extends Controller
         $fb = $this->container->get('facebook_service');
         $admin = $fb->checkIfUserAdmin($session);
         $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();
-
+        $uploadPhoto = false;
         $user = $doctrine->getRepository('AppBundle:User')->find($session->get('user')->getId());
         $app = $fb->getApp();
         $app->setDefaultAccessToken($session->get('accessToken'));
@@ -200,6 +200,8 @@ class ParticipateController extends Controller
             $form = $this->createFormBuilder()
             ->add('photo', FileType::class, ['required' => true, 'label' => 'Photo'])->getForm();
             $form->handleRequest($request);
+            $album = $app->get('/'.$albumId.'?fields=name')->getGraphAlbum();
+            $uploadPhoto = true;
             if ($form->isValid()) {
                 $albumId = $request->attributes->get('albumId');
                 $myFile = $app->fileToUpload($form->getViewData()['photo']->getPathname());
@@ -227,6 +229,7 @@ class ParticipateController extends Controller
                         'pages' => $pages,
                         'already_participated' => $already_participated,
                         'form' => $form->createView(),
+                        'uploadPhoto' => $uploadPhoto
                     ]);
                 }
                 return $this->redirectToRoute('participate_photo_facebook', array('albumId' => $albumId, 'photoId' =>$publish_photo->getGraphAlbum()['id'] ));
@@ -245,7 +248,8 @@ class ParticipateController extends Controller
             'pages' => $pages,
             'form' => $form ? $form->createView() : $form,
             'already_participated' => $already_participated,
-            'album' => $album
+            'album' => $album,
+            'uploadPhoto' => $uploadPhoto
         ]);
     }
 

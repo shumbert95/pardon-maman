@@ -10,7 +10,7 @@
             <a href="{{ path('participate_index') }}">
                 <button type="button" class="btn btn-default btn-page center-block">Retour</button>
             </a>
-        {% if album|length > 0 %}
+        {% if not uploadPhoto %}
             <div class="row center-block" id="album-list">
                 {% for key,photo in album.photos %}
                     <div class="album-cover col-sm-4" >

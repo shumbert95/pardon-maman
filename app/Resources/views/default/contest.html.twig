@@ -11,6 +11,10 @@
         </div>
         <div class="row center-block">
             <h2 class="text-center">Date de fin du concours : <span> {{ '%s %s %s'|format(day, month | trans, year) }}</span></h2>
+            {% if admin %}
+                <a href="{{ path('contest_export') }}">
+                <button type="button" class="btn btn-default btn-page center-block">Exporter</button></a>
+            {% endif %}
 
         <div id="tableau-wrap" class="table">
             <div class="table-head">
@@ -69,11 +73,7 @@
                             </div>
                         </div>
                     {% endfor %}
-                    {% if admin %}
-                        <a href="{{ path('contest_export') }}">
-                        </div>
-                        <button type="button" class="btn btn-default btn-page center-block">Exporter</button></a>
-                    {% endif %}
+                </div>
                 {% else %}
                     <div>Il n'y a pas de participants</div>
                 {% endif %}

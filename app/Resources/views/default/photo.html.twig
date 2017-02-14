@@ -11,7 +11,14 @@
 {% block body %}
 	<div class="container-fluid">
 		<div class="row center-block">
-        	<img class ="col-sm-offset-2 col-sm-8" src="{{ photo.link }}" />
+			<a href="{{ path('gallery') }}">
+				<button type="button" class="btn btn-default">Retour dans la galerie</button>
+			</a>
+		</div>
+		<div class="row center-block">
+			<div id="photo-full" class="center-block">
+        		<img src="{{ photo.link }}" />
+        	</div>
     	</div>
     	<div class="row center-block">
 			<button type="button" class="btn btn-default" onclick="share('{{ photo.getShareUrl }}')">Partager</button>

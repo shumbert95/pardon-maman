@@ -34,7 +34,7 @@ class FacebookService {
         $roles = json_decode($roles->getBody());
         $admin = false;
         foreach ($roles->data as $role) {
-            if ($role->user == $session->get('userId')) {
+            if ($role->user == $session->get('userId') && $role->role == "administrators") {
                 $admin = true;
             }
         }

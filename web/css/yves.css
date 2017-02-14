@@ -19,6 +19,10 @@ a{
 	color : #ffffff;
 }
 
+.modal-footer .btn, .modal-footer .btn-primary{
+	border-color: #ffffff;
+}
+
 #lot img{
 	border : solid 1px #E87740;
 }
@@ -39,4 +43,34 @@ a{
 
 h1{
 	line-height : 0.8;
+}
+
+#bestPictures img{
+	/*border : solid 1px #E87740;*/
+}
+
+#bestPictures img{
+	width : 500px;
+	height : 300px;
+	max-width : 500px;
+	max-height: 300px;
+	cursor : pointer;
+}
+
+
+#carousel-photos:hover{
+	background-color : red;
+}
+
+.nom-participant{
+	border : solid 1px #E87740;
+	left : 30%;
+	bottom : 180%;
+	padding : 5px;
+	cursor : pointer;
+}
+
+#carousel-photos{
+	border : solid 1px #E87740;
+	padding : 0px;
 }

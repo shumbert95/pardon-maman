@@ -18,7 +18,7 @@ class UserAdmin extends AbstractAdmin
         $formMapper->add('birthday', 'date', ['label' => 'Anniversaire']);
         $formMapper->add('country', 'text', ['label' => 'Pays']);
         $formMapper->add('city', 'text', ['label' => 'Ville']);
-        $formMapper->add('facebook_id', 'text', ['label' => 'Id Facebook', 'disable' => true]);
+        $formMapper->add('facebook_id', 'text', ['label' => 'Id Facebook', 'disabled' => true]);
         $formMapper->add('status', null, ['label' => 'En ligne', 'attr' => ['checked' => 'checked']]);
     }
 

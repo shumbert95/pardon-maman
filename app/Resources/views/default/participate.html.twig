@@ -23,25 +23,7 @@
                         <div class="row gallery-row center-block">
                     {% endif %} 
                     <div class="album-cover col-sm-4" >
-                        <img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ album.cover_photo.images[0].source }})";>
-                        <div id="myModal_{{ key }}" class="modal fade" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">{{ album.name }}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                    {% if album.cover_photo is defined %}
-                                        <img class="image-grande" src="{{ album.cover_photo.images[0].source }}">
-                                     {% endif %}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="{{ path('participate_album', { 'albumId': album.id }) }}"><button type="button" class="btn btn-secondary">Sélectionner</button></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="{{ path('participate_album', { 'albumId': album.id }) }}"><img class="crop-photo-concours image-transfert " style="background-image: url({{ album.cover_photo.images[0].source }})";></a>
                         <div class="nom-album center-block">
                             <p class="text-center"> {{ album.name }} </p>
                         </div>
@@ -53,7 +35,7 @@
         </div>
 
         <div id="import-photo">
-            <h3>Sélectionnez un album dans lequel publier la photo :</h3>
+            <h3>Sélectionnez un album dans lequel publier la photo</h3>
             <div class="row gallery-row center-block">
                 {% set compteur = 0 %}
                 {% for key,album in albums %}
@@ -64,27 +46,7 @@
                                 <div class="row gallery-row center-block">
                             {% endif %}
                             <div class="album-cover col-sm-4" >
-                                <img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_2_{{ key }}" style="background-image: url({{  album.cover_photo.images[0].source }})";>
-                                <div id="myModal_2_{{ key }}" class="modal fade" role="dialog">
-                                    <div class="modal-dialog">
-                                        <form method="POST" id="postPhoto" enctype='multipart/form-data'>
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    <h4 class="modal-title"></h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    {% if album.cover_photo is defined %}
-                                                        <img class="image-grande" src="{{ album.cover_photo.images[0].source }}">
-                                                    {% endif %}
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <a href="{{ path('participate_album', { 'albumId': album.id, 'uploadPhoto': true }) }}"><button type="button" class="btn btn-secondary">Sélectionner</button></a>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                                <a href="{{ path('participate_album', { 'albumId': album.id, 'uploadPhoto': true }) }}"><img class="crop-photo-concours image-transfert " style="background-image: url({{  album.cover_photo.images[0].source }})";></a>
                                 <div class="nom-album center-block">
                                     <p class="text-center"> {{ album.name }} </p>
                                 </div>

@@ -4,11 +4,13 @@
     <div class="container-fluid">
         <div class="row center-block">
            <h2> Transférer une photo </h2>
+           <h2> Album : {% if album.name is defined %} {{ album.name }} {% endif %} </h2>
         </div>
         <div class="row center-block">
-            <button>Retour</button>
-        </div>
-        {% if album|length > 0 %}
+            <a href="{{ path('participate_index') }}">
+                <button type="button" class="btn btn-default btn-page center-block">Retour</button>
+            </a>
+        {% if not uploadPhoto %}
             <div class="row center-block" id="album-list">
                 {% for key,photo in album.photos %}
                     <div class="album-cover col-sm-4" >
@@ -39,7 +41,7 @@
                 {{ form_start(form) }}
                     {{ form_label(form.photo) }}
                     {{ form_widget(form.photo) }}
-                <button class="btn btn-green btn-lg has-subtext"
+                <button class="btn btn-default btn-page center-block"
                             onclick="jQuery(this).closest('form').submit();">
                     <span class="smaller">Participer</span>
                 </button>

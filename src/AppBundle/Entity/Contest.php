@@ -251,7 +251,7 @@ class Contest
 
     public function getDateUpdate()
     {
-        return $this->date_start;
+        return $this->date_update;
     }
 
 

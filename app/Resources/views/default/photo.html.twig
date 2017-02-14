@@ -9,9 +9,15 @@
         <meta property="og:locale" content="fr_FR"/>
 {% endblock %}
 {% block body %}
-        <img src="{{ photo.link }}" />
-{% endblock %}
-
-{% block stylesheets %}
-
+	<div class="container-fluid">
+		<div class="row center-block">
+        	<img class ="col-sm-offset-2 col-sm-8" src="{{ photo.link }}" />
+    	</div>
+    	<div class="row center-block">
+    		<button type="button" class="btn btn-default" onclick="share('{{ photo.getShareUrl }}')">Partager</button>
+			<a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
+				<button type="button" class="btn btn-primary">Voter</button>
+			</a>
+		</div>
+    </div>
 {% endblock %}

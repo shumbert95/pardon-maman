@@ -143,6 +143,11 @@ class DefaultController extends Controller
         $admin = $fb->checkIfUserAdmin($session);
 
         $photo = $doctrine->getRepository('AppBundle:Photo')->findOneBy(['facebookId' => $facebookId]);
+        $contest = $doctrine->getRepository('AppBundle:Contest')->findOneBy(['status' => 1]);
+
+        $contestParticipant = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['contest' => $contest, 'photo' => $photo]);
+        $contestParticipants = $doctrine->getRepository('AppBundle:ContestParticipant')->findOneBy(['contest' => $contest]);
+
 
         $routeURL = $request->getRequestUri();
         $pages = $doctrine->getRepository('AppBundle:Page')->findOrderedByPosition();
@@ -156,6 +161,8 @@ class DefaultController extends Controller
                'admin' => $admin,
                'url_partage' => $routeURL,
                'photo' => $photo,
+               'contestParticipant' => $contestParticipant,
+               'contestParticipants' => $contestParticipants,
                'pages' => $pages,
            ]);
        }

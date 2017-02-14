@@ -2,70 +2,95 @@
 
 {% block body %}
     <div class="container-fluid">
-        <div class="row">
-            <span class=""><h2> Participer au concours </h2></span>
+        <div class="row header-page center-block">
+            <span class=""><h1> Participer au concours </h1></span>
         </div>
-        <div class="row">
+
+        <div class="row center-block">
             <select onchange="onChangeTypeParticipation(this)">
                 <option value="select-photo">Sélectionner une photo sur facebook</option>
                 <option value="import-photo">Importer une photo depuis son ordinateur</option>
             </select>
         </div>
+                  
         <div id="album-list">
-            <h3>Sélectionnez un album</h3>
-            <div class="row center-block">
-                {% for key,album in albums %}
-                    <div class="album-cover col-md-3" >
-                    {% if album.cover_photo is defined %}
-                        <a href="{{ path('participate_album', { 'albumId': album.id }) }}">
-                            <img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_{{ key }}" style="background-image: url({{ album.cover_photo.images[0].source }})";>
-                        </a>
-                    {% endif %}
+            <h3 class="text-center">Sélectionnez un album</h3>  
+            <div class="row gallery-row center-block">
+            {% for key,album in albums %}                              
+                {% if album.cover_photo is defined %}
+                    {% if key is divisibleby(3) and key!=0 %}
+                        </div>
+                        <div class="row gallery-row center-block">
+                    {% endif %} 
+                    <div class="album-cover col-sm-4" >
+                        <a href="{{ path('participate_album', { 'albumId': album.id }) }}"><img class="crop-photo-concours image-transfert " style="background-image: url({{ album.cover_photo.images[0].source }})";></a>
+                        <div class="nom-album center-block">
+                            <p class="text-center"> {{ album.name }} </p>
+                        </div>
                     </div>
-                {% endfor %}
-            </div>
+                    
+                {% endif %}                
+            {% endfor %}
+            </div> 
         </div>
 
         <div id="import-photo">
-            <h3>Sélectionnez un album dans lequel publier la photo :</h3>
-            <div class="row center-block">
+            <h3>Sélectionnez un album dans lequel publier la photo</h3>
+            <div class="row gallery-row center-block">
+                {% set compteur = 0 %}
                 {% for key,album in albums %}
-                    {% if (album.name != 'Profile Pictures') and  (album.name != 'Cover Photos') %}
-                    <div class="album-cover col-md-3" >
-                    {% if album.cover_photo is defined %}
-                        <a href="{{ path('participate_album', { 'albumId': album.id, 'uploadPhoto': true }) }}"><img class="crop-photo-concours image-transfert " data-toggle="modal" data-target="#myModal_2_{{ key }}" style="background-image: url({{  album.cover_photo.images[0].source }})";></a>
-                    {% endif %}
-                    </div>
-                    {% endif %}
-                {% endfor %}
-                <div class="album-cover col-md-3" >
-                    <img class="crop-photo-concours image-transfert" data-toggle="modal" data-target="#addModal" style="background-image: url({{ asset('img/add-symbol.png') }})";>
-                    <div id="addModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                            <form method="POST" enctype='multipart/form-data'  {% if already_participated %}onsubmit="return confirm('Vous avez déjà participé à ce concours. Si vous continuez, votre ancienne participation sera écrasée. Etes vous sur ?')"{% endif %}>
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title"></h4>
-                                    </div>
-                                    <div class="modal-body">
-                                            {{ form_start(form) }}
-                                            {{ form_label(form.title) }}
-                                            {{ form_widget(form.title) }}
-                                            {{ form_label(form.description) }}
-                                            {{ form_widget(form.description) }}
-                                            {{ form_label(form.photo) }}
-                                            {{ form_widget(form.photo) }}
-                                            {{ form_end(form) }}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-green btn-lg has-subtext"
-                                                    onclick="jQuery(this).closest('form').submit();">
-                                            <span class="smaller">Participer</span>
-                                        </button>
-                                    </div>
+                    {% if (album.name != 'Profile Pictures') and  (album.name != 'Cover Photos') %}                    
+                        {% if album.cover_photo is defined %}
+                            {% if compteur is divisibleby(3) and compteur!=0 %}
                                 </div>
-                            </form>
+                                <div class="row gallery-row center-block">
+                            {% endif %}
+                            <div class="album-cover col-sm-4" >
+                                <a href="{{ path('participate_album', { 'albumId': album.id, 'uploadPhoto': true }) }}"><img class="crop-photo-concours image-transfert " style="background-image: url({{  album.cover_photo.images[0].source }})";></a>
+                                <div class="nom-album center-block">
+                                    <p class="text-center"> {{ album.name }} </p>
+                                </div>
+                            </div>
+                        {% endif %} 
+                        {% set compteur = compteur + 1 %}                       
+                    {% endif %}                    
+                {% endfor %}
+                    {% if compteur is divisibleby(3) and compteur!=0 %}
+                        </div>
+                        <div class="row gallery-row center-block">
+                    {% endif %}
+                    <div class="album-cover col-sm-4" >
+                        <img class="crop-photo-concours image-transfert" data-toggle="modal" data-target="#addModal" style="background-image: url({{ asset('img/add-symbol.png') }})";>
+                        <div id="addModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <form method="POST" enctype='multipart/form-data'  {% if already_participated %}onsubmit="return confirm('Vous avez déjà participé à ce concours. Si vous continuez, votre ancienne participation sera écrasée. Etes vous sur ?')"{% endif %}>
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title"></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                                {{ form_start(form) }}
+                                                {{ form_label(form.title) }}
+                                                {{ form_widget(form.title) }}
+                                                {{ form_label(form.description) }}
+                                                {{ form_widget(form.description) }}
+                                                {{ form_label(form.photo) }}
+                                                {{ form_widget(form.photo) }}
+                                                {{ form_end(form) }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-green btn-lg has-subtext"
+                                                        onclick="jQuery(this).closest('form').submit();">
+                                                <span class="smaller">Participer</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="nom-album center-block">
+                            <p class="text-center"> Créer un nouvel album </p>
                         </div>
                     </div>
                 </div>

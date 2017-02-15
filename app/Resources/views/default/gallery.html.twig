@@ -34,13 +34,48 @@
                                 <h4 class="modal-title">Photo de {{ contestParticipant.participant.user.firstname }} {{ contestParticipant.participant.user.lastname|truncate(1, false, '') }}.</h4>
                             </div>
                             <div class="modal-body">
-                                <img class="image-grande" src="{{ contestParticipant.photo.link }}">
+                                <a href="{{ url('photo_display', {'facebookId': contestParticipant.photo.facebookId}) }}"><img class="image-grande" src="{{ contestParticipant.photo.link }}"></a>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" onclick="share('{{ contestParticipant.photo.getShareUrl }}')" data-dismiss="modal">Partager</button>
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#shareModal_{{ contestParticipant.photo.id }}">Partager sur Facebook</button>
                                 <a href="{{ path('vote_photo', { 'contestParticipantId': contestParticipant.id, 'contestParticipants' : contestParticipants }) }}">
                                     <button type="button" class="btn btn-primary">Voter</button>
                                 </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="shareModal_{{ contestParticipant.photo.id }}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title"></h4>
+                            </div>
+                            <div class="modal-body">
+                                Voulez vous vraiment partager cette photo sur votre mur Facebook ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-green btn-lg has-subtext" onclick="share('{{ contestParticipant.photo.getShareUrl }}','{{ contestParticipant.photo.link}}');jQuery('#shareModal_{{ contestParticipant.photo.id }}').modal('toggle');" data-toggle="modal" data-target="#confirmModal_{{ contestParticipant.photo.id }}">Partager sur Facebook</button>
+                                <button type="button" class="btn btn-green btn-lg has-subtext" data-toggle="modal" data-target="#shareModal_{{ contestParticipant.photo.id }}">Annuler</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="confirmModal_{{ contestParticipant.photo.id }}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title"></h4>
+                            </div>
+                            <div class="modal-body">
+                                La photo a bien été partagée sur votre mur.
+                            </div>
+                            <div class="modal-footer">
+                                    <button type="button" class="btn btn-green btn-lg has-subtext" onclick="jQuery('#confirmModal_{{ contestParticipant.photo.id }}').modal('toggle');">Fermer</button>
                             </div>
                         </div>
                     </div>
@@ -58,7 +93,7 @@
         {% endfor %}
     </ul>
 </div>
-    {% if (contestParticipant|length > 8) %}
+    {% if (contestParticipants|length > 8) %}
         <button type="button" onclick="seeMore()" id="seeMore" class="btn btn-secondary btn-border btn-see-more btn-page">Voir plus d'images</button>
     {% endif %}
 {% endblock %}

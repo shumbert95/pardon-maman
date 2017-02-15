@@ -9,11 +9,13 @@ function onChangeTypeParticipation(elt) {
     }
 }
 
-function share(url) {
-    FB.ui({
-        method: 'share',
-        href: url,
-    }, function(response){
+function share(url,urlPhoto) {
+    FB.api("/me/feed", "POST", {
+        "link": url,
+        "picture": urlPhoto,
+        "name": "Pardon Maman",
+        "description": "Tatoueur depuis 10 ans"
+    }, function (response) {
     });
 }
 

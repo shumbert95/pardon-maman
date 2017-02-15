@@ -1,8 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <h1>{{ page.title }}</h1>
-        <div>{{ page.content | striptags}}</div>
+    <div class="container-fluid">
+        <div class="row header-page center-block">
+            <h1>{{ page.title }}</h1>
+        </div>
+        <div class="row header-page center-block">
+            <div class="row center-block">
+                <div class="text-left col-sm-offset-1 col-sm-10  paragraphe">
+                    {{ page.content| raw  }}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

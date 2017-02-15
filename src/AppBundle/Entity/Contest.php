@@ -14,6 +14,25 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Contest
 {
+
+    const COLOR_RED = 1;
+    const COLOR_ORANGE = 2;
+    const COLOR_BLUE = 3;
+    const COLOR_GREEN = 4;
+    const COLOR_YELLOW = 5;
+    const COLOR_BLACK = 6;
+    const COLOR_GREY = 7;
+
+    static $colorLabels = [
+        'Rouge' => self::COLOR_RED,
+        'Orange' => self::COLOR_ORANGE,
+        'Bleu' => self::COLOR_BLUE,
+        'Vert' => self::COLOR_GREEN,
+        'Jaune' => self::COLOR_YELLOW,
+        'Noir' => self::COLOR_BLACK,
+        'Gris' => self::COLOR_GREY
+    ];
+
     /**
      * @var int
      *
@@ -57,12 +76,6 @@ class Contest
     private $winner;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="Template", inversedBy="contests", cascade={"merge", "persist"})
-     */
-    private $template;
-
-    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Rule", cascade={"persist"})
      * @ORM\JoinTable(name="contest_rule",
      *      joinColumns={@ORM\JoinColumn(name="contest_id", referencedColumnName="id")},
@@ -104,6 +117,20 @@ class Contest
     private $status;
 
     private $participants;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="principal_color", type="integer", options={"default": 6})
+     */
+    private $principalColor;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="secondary_color", type="integer", options={"default": 2})
+     */
+    private $secondaryColor;
 
 
     public function __construct()
@@ -458,6 +485,28 @@ class Contest
     public function setUpdatedAtValue()
     {
         $this->date_update = new \DateTime();
+    }
+
+    public function getPrincipalColor()
+    {
+        return $this->principalColor;
+    }
+
+    public function setPrincipalColor($color)
+    {
+        $this->principalColor = $color;
+        return $this;
+    }
+
+    public function getSecondaryColor()
+    {
+        return $this->secondaryColor;
+    }
+
+    public function setSecondaryColor($color)
+    {
+        $this->secondaryColor = $color;
+        return $this;
     }
 
 

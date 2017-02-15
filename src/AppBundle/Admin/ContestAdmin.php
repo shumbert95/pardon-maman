@@ -2,6 +2,7 @@
 
 namespace AppBundle\Admin;
 
+use AppBundle\Entity\Contest;
 use AppBundle\Entity\Participant;
 use AppBundle\Entity\Rule;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -22,12 +23,13 @@ class ContestAdmin extends AbstractAdmin
         $formMapper->add('date_start', 'date', ['label' => 'Date de début', 'required' => true]);
         $formMapper->add('date_end', 'date',['label' => 'Date de fin', 'required' => true]);
         $formMapper->add('prize', null, ['label' => 'Prix', 'required' => true]);
+        $formMapper->add('principalColor', 'choice', ['label' => 'Couleur principale', 'choices' => [Contest::$colorLabels]]);
+        $formMapper->add('secondaryColor', 'choice', ['label' => 'Couleur secondaire', 'choices' => [Contest::$colorLabels]]);
         $formMapper->add('rules', 'entity', ['required' => true,
         'label' => 'Règles',
         'multiple' => true,
         'class' => Rule::class]);
         $formMapper->add('status', null, ['label' => 'En ligne']);
-//        $formMapper->add('participants', 'entity', ['class' => Participant::class, 'label' => 'Participants', 'disabled' => true]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

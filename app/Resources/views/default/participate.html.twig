@@ -71,12 +71,18 @@
                                         </div>
                                         <div class="modal-body">
                                                 {{ form_start(form) }}
-                                                {{ form_label(form.title) }}
-                                                {{ form_widget(form.title) }}<br />
-                                                {{ form_label(form.description) }}
-                                                {{ form_widget(form.description) }}<br />
-                                                {{ form_label(form.photo) }}
-                                                {{ form_widget(form.photo) }}
+                                                <div id='title'>
+                                                        {{ form_label(form.title) }}
+                                                    {{ form_widget(form.title) }}
+                                                </div>
+                                                <div id='description'>
+                                                    {{ form_label(form.description) }}
+                                                    {{ form_widget(form.description) }}
+                                                </div><br />
+                                                <div id='envoi-photo'>
+                                                    {{ form_label(form.photo) }}
+                                                    {{ form_widget(form.photo) }}
+                                                </div>
                                                 {{ form_end(form) }}
                                         </div>
                                         <div class="modal-footer">

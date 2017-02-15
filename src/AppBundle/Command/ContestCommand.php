@@ -28,12 +28,12 @@ class ContestCommand extends ContainerAwareCommand
         $app = $fb->getApp();
         $admins = $fb->getAdmins();
         $contest = $doctrine->getRepository('AppBundle:Contest')->findOneBy(['status' => 1]);
-////        if ($contest->getDateEnd()->format('Y-m-d') == date('Y-m-d')) {
+        if ($contest->getDateEnd()->format('Y-m-d') == date('Y-m-d')) {
             $winner = $doctrine->getRepository('AppBundle:ContestParticipant')->getContestWinner($contest);
-//
             $winner = $doctrine->getRepository('AppBundle:ContestParticipant')->find($winner[0]->getId());
-//            $contest->setWinner($winner);
-//            $em->flush();
+
+            $contest->setWinner($winner);
+            $em->flush();
 //            $photo = $winner->getPhoto();
 //        $fbApp = new FacebookApp($this->getContainer()->getParameter('appId'), $this->getContainer()->getParameter('appSecret'));
 //            foreach ($contest->getContestParticipants() as $contestParticipant) {
@@ -43,18 +43,13 @@ class ContestCommand extends ContainerAwareCommand
 //                    'object_attachment' => $photo->getFacebookId(),
 //                    'access_token' => $app->getApp()->getAccessToken()->getValue()
 //                );
-////                $post_message = $app->post('/'.$contestParticipant->getParticipant()->getUser()->getFacebookId().'/feed', $album_details);
-//                try{
-//
-//                }catch (\Exception $e) {
-//                    var_dump($e);
-//                }
+//                $post_message = $app->post('/'.$contestParticipant->getParticipant()->getUser()->getFacebookId().'/feed', $album_details);
 //                $post_message = $app->post('/117131608805366/feed', $album_details);
 //
 //            }
 
             $this->sendMail($admins, $winner, $contest);
-//        }
+        }
 
     }
 

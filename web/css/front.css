@@ -455,6 +455,16 @@ body
     max-width: 700px;
 }
 
+.btn-primary:hover{
+    background-color: #3D3D3D !important;
+    color : #ffffff !important;
+}
+
+.btn-default:hover{
+    background-color: #3D3D3D !important;
+    color : #ffffff !important;
+}
+
 /*************************************************************/
 
 

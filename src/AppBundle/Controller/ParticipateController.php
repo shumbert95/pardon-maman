@@ -59,7 +59,7 @@ class ParticipateController extends Controller
             $create_album = null;
             if (isset( $formCreateAlbum->getViewData()['description']) && $formCreateAlbum->getViewData()['title']) {
                 $album_details = array(
-                    'message'=> $formCreateAlbum->getViewData()['description'],
+                    'description'=> $formCreateAlbum->getViewData()['description'],
                     'name' => $formCreateAlbum->getViewData()['title']
                 );
                 $create_album = $app->post('/me/albums', $album_details);
@@ -141,9 +141,10 @@ class ParticipateController extends Controller
                 $doctrine->getEntityManager()->flush();
 
                 $album_details = array(
-                    'message'=> 'Je viens de participer au concours de Pardon Maman. Allez voir ma photo !',
-                    'link' => $this->generateUrl('photo_display', array('facebookId' =>$photo->getFacebookId()), 0),
-                    'object_attachment' => $photo->getFacebookId()
+                    'description'=> 'Nouvelle participation au concours photo de Pardon Maman, venez regarder !',
+                    'link' => $photo->getShareUrl(),
+                    'picture' => $photo->getLink()/*,
+                    'object_attachment' => $photo->getFacebookId()*/
                 );
 
                 $post_message = $app->post('/me/feed', $album_details);
@@ -315,10 +316,11 @@ class ParticipateController extends Controller
         $doctrine->getEntityManager()->flush();
 
         $album_details = array(
-            'message'=> 'Je viens de participer au concours de Pardon Maman. Allez voir ma photo !',
-            'link' => $this->generateUrl('photo_display', array('facebookId' =>$photo->getFacebookId()), 0),
-            'object_attachment' => $photo->getFacebookId()
-        );
+                    'description'=> 'Nouvelle participation au concours photo de Pardon Maman, venez regarder !',
+                    'link' => $photo->getShareUrl(),
+                    'picture' => $photo->getLink()/*,
+                    'object_attachment' => $photo->getFacebookId()*/
+                );
 
         $post_message = $app->post('/me/feed', $album_details);
 

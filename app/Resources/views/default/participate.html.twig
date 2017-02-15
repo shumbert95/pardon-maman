@@ -72,9 +72,9 @@
                                         <div class="modal-body">
                                                 {{ form_start(form) }}
                                                 {{ form_label(form.title) }}
-                                                {{ form_widget(form.title) }}
+                                                {{ form_widget(form.title) }}<br />
                                                 {{ form_label(form.description) }}
-                                                {{ form_widget(form.description) }}
+                                                {{ form_widget(form.description) }}<br />
                                                 {{ form_label(form.photo) }}
                                                 {{ form_widget(form.photo) }}
                                                 {{ form_end(form) }}
@@ -82,8 +82,11 @@
                                         <div class="modal-footer">
                                             <button class="btn btn-green btn-lg has-subtext"
                                                         onclick="jQuery(this).closest('form').submit();">
-                                                <span class="smaller">Participer</span>
+                                                <span class="smaller">Participer et partager sur Facebook votre participation</span>
                                             </button>
+                                            <button class="btn btn-green btn-lg has-subtext" data-toggle="modal" data-target="#addModal">
+                                                Annuler
+                                            </button>                                            
                                         </div>
                                     </div>
                                 </form>

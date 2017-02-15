@@ -70,7 +70,7 @@ class ContestCommand extends ContainerAwareCommand
                 ->setFrom('shumbert@kernix.com')
                 ->setTo($admin->getEmail())
                 ->setBody(
-                    $this->renderView(
+                    $this->getContainer()->get('templating')->render(
                         'emails/contest_end.html.twig',
                         array('contestName' => $contest->getName(), 'participantFirstName' => $winner->getFirstName(), 'participantLastName' => $winner->getLastName())
                     ),

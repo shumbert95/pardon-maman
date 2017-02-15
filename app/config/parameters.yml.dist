@@ -18,7 +18,7 @@ parameters:
 
     # Facebook
     appId:      1504707966210156
-    appSecret: 68f994bc31e69588727c593005f770c8
+    appSecret:         ~
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt

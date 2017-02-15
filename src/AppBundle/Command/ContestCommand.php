@@ -77,7 +77,7 @@ class ContestCommand extends ContainerAwareCommand
                     'text/html'
                 )
             ;
-            $this->get('mailer')->send($message);
+            $this->getContainer()->get('mailer')->send($message);
         }
     }
 }

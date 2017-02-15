@@ -26,7 +26,10 @@
                                         <img class="image-grande" src="{{ photo.images[0].source }}">
                                     </div>
                                     <div class="modal-footer">
-                                        <a {% if already_participated %}onclick="return confirm('Vous avez déjà participé à ce concours. Si vous continuez, votre ancienne participation sera écrasée. Etes vous sur ?')"{% endif %} href="{{ path('participate_photo_facebook', { 'albumId': album.id, 'photoId': photo.id }) }}"><button type="button" class="btn btn-secondary" id="selectionner" data-album="{{ album.id }}" data-photo="{{ photo.id }}">Sélectionner</button></a>
+                                        <a {% if already_participated %}onclick="return confirm('Vous avez déjà participé à ce concours. Si vous continuez, votre ancienne participation sera écrasée. Etes vous sur ?')"{% endif %} href="{{ path('participate_photo_facebook', { 'albumId': album.id, 'photoId': photo.id }) }}"><button type="button" class="btn btn-secondary" id="selectionner" data-album="{{ album.id }}" data-photo="{{ photo.id }}">Sélectionner et partager sur Facebook votre participation</button></a>
+                                        <button class="btn btn-default btn-page center-block" data-toggle="modal" data-target="#myModal_{{ key }}">
+                                            <span class="smaller">Annuler</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +46,10 @@
                     {{ form_widget(form.photo) }}
                 <button class="btn btn-default btn-page center-block"
                             onclick="jQuery(this).closest('form').submit();">
-                    <span class="smaller">Participer</span>
+                    <span class="smaller">Participer et partager sur Facebook votre participation</span>
+                </button>
+                <button class="btn btn-default btn-page center-block" data-toggle="modal" data-target="#myModal_{{ key }}">
+                    <span class="smaller">Annuler</span>
                 </button>
                 {{ form_end(form) }}
                     {% endif %}

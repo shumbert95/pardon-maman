@@ -27,11 +27,11 @@ class ContestCommand extends ContainerAwareCommand
         $fb = $this->getContainer()->get('facebook_service');
         $app = $fb->getApp();
         $admins = $fb->getAdmins();
-//        $contest = $doctrine->getRepository('AppBundle:Contest')->findOneBy(['status' => 1]);
+        $contest = $doctrine->getRepository('AppBundle:Contest')->findOneBy(['status' => 1]);
 ////        if ($contest->getDateEnd()->format('Y-m-d') == date('Y-m-d')) {
-//            $winner = $doctrine->getRepository('AppBundle:ContestParticipant')->getContestWinner($contest);
+            $winner = $doctrine->getRepository('AppBundle:ContestParticipant')->getContestWinner($contest);
 //
-//            $winner = $doctrine->getRepository('AppBundle:ContestParticipant')->find($winner[0]->getId());
+            $winner = $doctrine->getRepository('AppBundle:ContestParticipant')->find($winner[0]->getId());
 //            $contest->setWinner($winner);
 //            $em->flush();
 //            $photo = $winner->getPhoto();
@@ -53,7 +53,7 @@ class ContestCommand extends ContainerAwareCommand
 //
 //            }
 
-            $this->sendMail($admins);
+            $this->sendMail($admins, $winner, $contest);
 //        }
 
     }
@@ -62,7 +62,7 @@ class ContestCommand extends ContainerAwareCommand
      * @param $user
      * @param $exception
      */
-    private function sendMail($admins)
+    private function sendMail($admins, $winner, $contest)
     {
         foreach ($admins as $admin) {
             $message = \Swift_Message::newInstance()
@@ -72,7 +72,7 @@ class ContestCommand extends ContainerAwareCommand
                 ->setBody(
                     $this->renderView(
                         'emails/contest_end.html.twig',
-                        array('name' => 'test')
+                        array('contestName' => )
                     ),
                     'text/html'
                 )

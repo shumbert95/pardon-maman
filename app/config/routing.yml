@@ -4,12 +4,12 @@ app:
 
 admin_area:
     resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
-    prefix: /admin
+    prefix: /admin75643
 
 _sonata_admin:
     resource: .
     type: sonata_admin
-    prefix: /admin
+    prefix: /admin75643
 
 cmf_media_file:
     resource: "@CmfMediaBundle/Resources/config/routing/file.xml"

@@ -72,7 +72,7 @@ class ContestCommand extends ContainerAwareCommand
                 ->setBody(
                     $this->renderView(
                         'emails/contest_end.html.twig',
-                        array('contestName' => )
+                        array('contestName' => $contest->getName(), 'participantFirstName' => $winner->getFirstName(), 'participantLastName' => $winner->getLastName())
                     ),
                     'text/html'
                 )
